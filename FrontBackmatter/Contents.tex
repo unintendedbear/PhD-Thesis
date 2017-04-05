@@ -1,0 +1,95 @@
+%*******************************************************
+% Table of Contents
+%*******************************************************
+%\phantomsection
+\refstepcounter{dummy}
+\pdfbookmark[1]{\contentsname}{tableofcontents}
+\setcounter{tocdepth}{2}
+\dominitoc
+\tableofcontents
+%\markboth{\spacedlowsmallcaps{\contentsname}}{\spacedlowsmallcaps{\contentsname}}
+\markboth{\textsc{\contentsname}}{\textsc{\contentsname}}
+%*******************************************************
+% work-around to have small caps also here in the headline
+% will not work at this place if the TOC has more than 2 pages
+% use \manualmark and then the \markboth as above
+% later a modification of \automark[section]{chapter}
+%*******************************************************
+% List of Figures and of the Tables
+%*******************************************************
+\clearpage
+
+\begingroup
+    \let\clearpage\relax
+    \let\cleardoublepage\relax
+    \let\cleardoublepage\relax
+    %*******************************************************
+    % List of Figures
+    %*******************************************************
+    %\phantomsection
+    \refstepcounter{dummy}
+    %\addcontentsline{toc}{chapter}{\listfigurename}
+    \pdfbookmark[1]{\listfigurename}{lof}
+    \listoffigures
+
+    \vspace*{8ex}
+
+    %*******************************************************
+    % List of Tables
+    %*******************************************************
+    %\phantomsection
+    \refstepcounter{dummy}
+    %\addcontentsline{toc}{chapter}{\listtablename}
+    \pdfbookmark[1]{\listtablename}{lot}
+    \listoftables
+
+    \vspace*{8ex}
+%   \newpage
+
+    %*******************************************************
+    % List of Listings
+    %*******************************************************
+%   %\phantomsection
+%   \refstepcounter{dummy}
+%   %\addcontentsline{toc}{chapter}{\lstlistlistingname}
+%   \pdfbookmark[1]{\lstlistlistingname}{lol}
+%   \lstlistoflistings
+
+    %*******************************************************
+    % Acronyms
+    %*******************************************************
+    %\phantomsection
+    \refstepcounter{dummy}
+    \pdfbookmark[1]{Acronyms}{acronyms}
+    \chapter*{Acronyms}
+    \begin{acronym}[CSCW]
+%    \acro{AdSi}{Adaptive Size}
+%    \acro{API}{Application Programming Interface}
+%    \acro{CPU}{Central Processing Unit}
+%	\acro{EA}{Evolutionary Algorithm}
+%    \acro{EC}{Evolutionary Computation}
+%    \acro{EP}{Evolutionary Programming}
+%	\acro{ES}{Evolutionary Strategy}
+%    \acro{GA}{Genetic Algorithm}
+%    \acro{GP}{Genetic Programming}
+%    \acro{HeHa}{Heterogeneous Hardware}
+%    \acro{HoHa}{Homogeneous Hardware}
+%    \acro{HeSi}{Heterogeneous Size}
+%    \acro{HoSi}{Homogeneous Size}
+%    \acro{IDE}{Integrated Development Environment}
+%	\acro{MMDP}{Massive Multimodal Deceptive Problem}
+%	\acro{OSGi}{Open Service Gateway Initiative}
+%    \acro{REST}{Representational State Transfer}
+%    \acro{RTS}{Real Time Strategy}
+%	\acro{SOA}{Service Oriented Architecture}
+%    \acro{SOAP}{Simple Object Access Protocol}
+%    \acro{SOEA}{Service Oriented Evolutionary Algorithm}
+%    \acro{UDDI}{Universal Description, Discovery and Integration}
+%    \acro{URL}{Uniform Resource Locator}
+%    \acro{VM}{Virtual Machine}
+%    \acro{WSDL}{Web Services Description Language}
+%    \acro{XML}{eXtensible Markup Language}
+    \end{acronym}
+\endgroup
+
+\cleardoublepage 

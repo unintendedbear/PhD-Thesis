@@ -1,0 +1,18 @@
+#!/bin/sh
+
+rm *.mtc
+rm *.aux
+rm *.bbl
+rm *.blg
+rm *.log
+rm *~
+rm *.dvi
+
+pdflatex -shell-escape tesis.tex 
+pdflatex -shell-escape tesis.tex 
+bibtex tesis 
+pdflatex -shell-escape tesis.tex
+pdflatex -shell-escape tesis.tex
+pdflatex -shell-escape tesis.tex
+echo "-----------------------------"
+echo "ESTO ACABAO"
