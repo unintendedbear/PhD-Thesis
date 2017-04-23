@@ -267,9 +267,12 @@ ${#1}^a$}%\btxnumeralfallback{spanish}{#1}}%
 %\definecolor[named]{highlightOrange}{rgb}{1,.86,.29}
 %\definecolor[named]{lightOrange}{rgb}{1,.45,0}
 \definecolor[named]{darkOrange}{rgb}{.8,.3,0}
+\definecolor[named]{darkGreen}{rgb}{.322,.439,.247}
 
 \definecolor[named]{minimumOrange}{rgb}{1,.976,.474}
+\definecolor[named]{minimumGreen}{rgb}{.698,.906,.624}
 \definecolor[named]{ugrOrange}{rgb}{.945,.365,.165} % PANTONE 179: {R:241, G:93, B:42}
+\definecolor[named]{ugrGreenery}{rgb}{.533,.690,.294} % PANTONE 15-0343: {R:136, G:176, B:75}
 %\definecolor[named]{ugrOrange}{cmyk}{0,.309,.368,0} % PANTONE 179: {C:0, M:79, Y:94, K:0}
 \definecolor[named]{ugrGray}{rgb}{.463,.482,.494}
 
@@ -280,19 +283,23 @@ ${#1}^a$}%\btxnumeralfallback{spanish}{#1}}%
 \colorlet{highlightOrange}{ugrOrange!25!minimumOrange}
 \colorlet{lighterOrange}{ugrOrange!40!minimumOrange}
 \colorlet{lightOrange}{ugrOrange!75!minimumOrange}
+\colorlet{ultralightGreen}{ugrGreenery!5!minimumGreen}
+\colorlet{highlightGreen}{ugrGreenery!25!minimumGreen}
+\colorlet{lighterGreen}{ugrGreenery!40!minimumGreen}
+\colorlet{lightGreen}{ugrGreenery!75!minimumGreen}
 
-\definecolor{colorCorporativoMasSuave}{named}{ultralightOrange}
-\definecolor{colorCorporativoSuave}{named}{highlightOrange}
-\definecolor{colorCorporativoMedioSuave}{named}{lighterOrange}
-\definecolor{colorCorporativoMedio}{named}{lightOrange}
-\definecolor{colorCorporativo}{named}{ugrOrange}
-\definecolor{colorCorporativoOscuro}{named}{darkOrange}
+\definecolor{colorCorporativoMasSuave}{named}{ultralightGreen}
+\definecolor{colorCorporativoSuave}{named}{highlightGreen}
+\definecolor{colorCorporativoMedioSuave}{named}{lighterGreen}
+\definecolor{colorCorporativoMedio}{named}{lightGreen}
+\definecolor{colorCorporativo}{named}{ugrGreenery}
+\definecolor{colorCorporativoOscuro}{named}{darkGreen}
 \definecolor{Maroon}{named}{colorCorporativoOscuro}
 
 \definecolor{headColor}{named}{white}%{colorCorporativoMasSuave}
 \definecolor{titleNumbercolor}{named}{ugrGray}
-\definecolor{titlecolor}{named}{ugrOrange}
-\definecolor{alternateTitlecolor}{named}{darkOrange}
+\definecolor{titlecolor}{named}{ugrGreenery}
+\definecolor{alternateTitlecolor}{named}{darkGreen}
 
 \newcolumntype{A}{%
 >{\color{black}\columncolor{colorCorporativoSuave}}%
