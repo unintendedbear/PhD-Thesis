@@ -34,20 +34,25 @@ Therefore, the main issue in the adaptation to a BYOD scenario is to obtain a hi
 \label{subsec:context}
 
 % Problem:
-Previous papers have commented on the issue of using quality data to obtain accurate and valuable extracted knowledge, which is specially difficult when dealing with datasets taken from real world problems, where the sensors cannot work properly at a certain time. This situation creates high levels of missing values, making difficult the use of some classifying techniques. To approach this problem, researchers have advanced the state of the art in the precision of the devices, as well as in the treatment of missing data. For instance, in \cite{rios2015mobile}, the authors focus on the importance of having an accurate measure of the location of the devices. Although their approach seems to encroach upon employees' privacy, they implemented a mobile information system for BYOD adaptation, and tested it in both Android and iOS devices. The authors concluded that the efficiency of their system, along with the possibilities of the hardware in the devices, results in a location
+Previous papers have commented on the issue of using quality data to obtain accurate and valuable extracted knowledge, which is specially difficult when dealing with datasets taken from real world problems, where the sensors cannot work properly at a certain time. To avoid this, researchers have advanced the state of the art in the precision of the devices. For instance, in \cite{rios2015mobile}, the authors focus on the importance of having an accurate measure of the location of the devices. Although their approach seems to encroach upon employees' privacy, they implemented a mobile information system for BYOD adaptation, and tested it in both Android and iOS devices. The authors concluded that the efficiency of their system, along with the possibilities of the hardware in the devices, results in a location
 error of less than 50 meters with a 95\% confidence level. These promising results allow the companies to use the location of their employees to apply certain security policies.
-% On the other hand, J.W. and W.J. Grzymala-Busse describe in \cite{grzymala2010handling} a number of techniques that go from sequential methods, which preprocess the missing values in different ways, to parallel methods, where missing values are treated by the algorithms as they are.
 
 % How can we benefit and how can we help
 In our case, an accurate detection of the location could be used to obtain more information about the happening event, and that could increase the classification accuracy. At the same time, the extracted rules as a result from the methodology we propose in this thesis can help the company in indentifying certain locations as ``dangerous'' or ``safe''.
 
 \subsection{User behaviour}
-\label{subsec:user_behav}
+\label{subsec:behav}
 
-% Users being the main hazard due to their ignorance about company security rules
+% Problem:
+
+Even not on purpose, the users of the system are considered the main hazard due to their ignorance about company security rules  \cite{Adams_users99}. They want to benefit from the BYOD philosophy, so that they can balance their private and work life, but they usually are not familiar with the Corporate Security Policy (CSP) of their company.  Actually, the employees have a natural tendency to comply with the security policies \cite{Sip_SecPriv07,Bulg_SecPol10,AlOmari_SecPol12}, and that good intention increases by educating or training them in information security awareness  \cite{Shaw_SecAware09}, and decreases applying too much sanctions when a misuse or abuse occurs \cite{Her_SecPol09}.
+
+% How can we benefit and how can we help
+Soft Computing techniques, such as data visualisation, can help in understanding the behaviour of the users and the risks it might carry. We propose the use of these techniques, among others to aid the CSO presenting conclusions to the company, also helping them to identify possible threats.
 
 \subsection{User privacy}
 \label{subsec:user_priv}
+
 
 \subsection{Platform independence}
 \label{subsec:platf_ind}
@@ -67,22 +72,25 @@ In our case, an accurate detection of the location could be used to obtain more 
 
 ...
 
-\newcommand{\objectivescenarios}{To characterise the target environments and use cases as a basis for the development of the methodology as a solution.} 
+\newcommand{\objectivescenarios}{To describe the target environments, or use cases, to take into account in order to develop a the metrics, techniques, and problems to solve.} % to describe or to define?
 
  \subsection*{Objective 1: \objectivescenarios}
 \label{subsec:intro:obj:problems}
 
-% To define a set of metrics able to measure the efficiency of a particular set of security rules.
+\newcommand{\objectivemetrics}{To define a set of metrics able to measure the efficiency of a particular set of security rules.}
 
-\newcommand{\objectivedata}{To obtain the set of data and choose the best Soft Computing techniques for processing it.}
-
-\subsection*{Objective 2: \objectivedata} 
+\subsection*{Objective 2: \objectivemetrics} 
 \label{subsec:intro:obj:methodology}
 
-\newcommand{\objectivetechniques}{To choose the best Machine Learning techniques that allow the minimum false positives as possible.}
+\newcommand{\objectivetechniques}{To choose which Soft Computing and Machine Learning techniques suit best for every defined scenario.}
 
 \subsection*{Objective 3: \objectivetechniques}
-\label{subsec:intro:obj:fwork} 
+\label{subsec:intro:obj:fwork}
+
+\newcommand{\objectiveresearch}{} 
+
+\subsection*{Objective 4: \objectiveresearch}
+\label{subsec:intro:obj:applications}
 
 
 
