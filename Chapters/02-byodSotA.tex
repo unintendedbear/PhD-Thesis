@@ -204,66 +204,40 @@ These features make it a good alternative to most of the proprietary, close and 
 Table \ref{tab:taxonomy} summarizes the features of the main analyzed tools, with respect to the proposed taxonomy in Section \ref{sec:toolsreview}. Also, Table \ref{tab:features} shows the features of the analyzed products considering licenses, type of supported devices, and price.
 % Antonio - Antares, ¿podrías incluir en la comparativa las otras herramientas que se han analizado? Las de Citrix, WSO2, Azzurri, Good...
 
-\begin{table}[ht]
-\begin{footnotesize}
-  \centering
-  \renewcommand{\arraystretch}{2.0}% Spread rows out...
-%  \resizebox{12cm}{!}{
-  \begin{tabular}{>{\centering\bfseries}m{0.6in} >{\centering}m{0.6in} >{\centering}m{0.6in} >{\centering}m{0.6in} >{\centering}m{0.6in} >{\centering\arraybackslash}m{0.6in}}
-    \toprule
-      & \textbf{Offline threat detection method} & \textbf{Updatable database} & \textbf{Standalone} & \textbf{Non-invasive data access} & \textbf{Superuser system control} \\
-    \midrule
-    MUSES & \cmark & \cmark & \cmark & \cmark & \cmark  \\
-     \arrayrulecolor[gray]{0.6}\hline
-    IBM Mobile Security & \xmark & \xmark & \cmark & \xmark & \xmark  \\
-     \arrayrulecolor[gray]{0.6}\hline
-    Sophos Mobile Control & \cmark & \xmark & \cmark & \xmark & \xmark \\
-     \arrayrulecolor[gray]{0.6}\hline
-    Samsung Knox & \cmark & \xmark & \cmark & \cmark & \cmark\\
-     \arrayrulecolor[gray]{0.6}\hline
-     Blackbery Balance & \xmark & \xmark & \cmark & \cmark & \cmark\\
-     \arrayrulecolor[gray]{0.6}\hline
-    Blackphone & \nmark & \nmark & \cmark & \cmark & \cmark\\
-     \arrayrulecolor[gray]{0.6}\hline
-    Android for Work & \cmark & \xmark & \cmark & \cmark & \cmark\\
-    \bottomrule
-  \end{tabular}
-%  }
-\end{footnotesize}
-  \caption{Features of the analyzed tools with regard to the proposed taxonomy to classify BYOD systems (see Section \ref{sec:toolsreview}).}
-  \label{tab:taxonomy}
-\end{table}
+\begin{SCtable}[][tb]
+\resizebox{11cm}{!}{
+\begin{tabular}{llllll}
+\hline
+\rowcolor{colorCorporativoSuave}{} & {\em \begin{tabular}[c]{@{}l@{}}Offline threat\\ detection method\end{tabular}} & {\em \begin{tabular}[c]{@{}l@{}}Updatable\\ database\end{tabular}} & {\em Standalone} & {\em \begin{tabular}[c]{@{}l@{}}Non-invasive\\ data access\end{tabular}} & {\em \begin{tabular}[c]{@{}l@{}}Superuser\\ system control\end{tabular}} \\\hline\hline
+\rowcolor{colorCorporativoMasSuave}MUSES & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\\hline
+\rowcolor{colorCorporativoSuave}IBM Mobile Security &  &  & \checkmark &  &  \\ \hline
+\rowcolor{colorCorporativoMasSuave}Sophos Mobile Control & \checkmark &  & \checkmark &  &  \\ \hline
+\rowcolor{colorCorporativoSuave}Samsung KNOX & \checkmark &  & \checkmark & \checkmark & \checkmark \\ \hline
+\rowcolor{colorCorporativoMasSuave}Blackberry Balance &  &  & \checkmark & \checkmark & \checkmark \\ \hline
+\rowcolor{colorCorporativoSuave}Blackphone & - & - & \checkmark & \checkmark & \checkmark \\ \hline
+\rowcolor{colorCorporativoMasSuave}Android for Work & \checkmark &  & \checkmark & \checkmark & \checkmark \\ \hline\hline
+\end{tabular}
+}
+\caption{Features of the analysed tools with regard to the proposed taxonomy to classify BYOD systems.}
+\label{tab:taxonomy}
+\end{SCtable}
 
-\begin{table}[ht]
-\begin{footnotesize}
-  \centering
-  \renewcommand{\arraystretch}{1.8}% Spread rows out...
-%  \resizebox{8cm}{!}{
-  \begin{tabular}{>{\centering\bfseries}m{1in} >{\centering}m{1in} >{\centering}m{1in} >{\centering\arraybackslash}m{1in}}
-       \toprule
-      & \textbf{License} & \textbf{Devices} & \textbf{Price} \\
-       \midrule
-    MUSES & OpenSource & Android, Windows 8.1, Windows Phone, iOS & Free  \\
-       \arrayrulecolor[gray]{0.8}\hline
-    IBM Mobile Security & Proprietary & iOS, Android, Windows Phone, Blackberry  &  By Request\\\\
-        \arrayrulecolor[gray]{0.8}\hline
-    Sophos Mobile Control & Proprietary & iOS, Android, Windows Phone  &  By Request\\
-        \arrayrulecolor[gray]{0.8}\hline
-    Samsung Knox and Blackbery Balance & Proprietary & Android Samsung Devices and iOS & 12\$ per year/device \\
-        \arrayrulecolor[gray]{0.8}\hline
-    Blackphone & Proprietary & Own device & 120\$ per year \\
-        \arrayrulecolor[gray]{0.8}\hline
-    Android for Work & Proprietary & Android and devices with Chrome Browser &  12\$ per month/user\\
-       \bottomrule
-  \end{tabular}
-%  }
-\end{footnotesize}
-  \caption{Features of the analyzed products considering licenses, type of devices and OS, and price.}
-  \label{tab:features}
-\end{table}
-% Antonio - Antares, ¿no había más tablas?
-% Por favor, que alguien rellene los datos de la solución de IBM. ¿Fergu?¿Antares?
-% Quizá habría que indicar que MUSES se puede instalar en PC también en la tabla. ¿Sabéis si los demás se puede o son sólo para smartphones/tablets?
+\begin{SCtable}[][tb]
+\resizebox{11cm}{!}{
+\begin{tabular}{llll}
+\hline
+\rowcolor{colorCorporativoSuave}{} & {\em License} & {\em Devices} & {\em Price} \\\hline\hline
+\rowcolor{colorCorporativoMasSuave}MUSES & OpenSource & \begin{tabular}[c]{@{}l@{}}Android, iOS,\\Windows 8.1,\\Windows Phone\end{tabular} & Free \\\hline
+\rowcolor{colorCorporativoSuave}IBM Mobile Security& Proprietary & \begin{tabular}[c]{@{}l@{}}Android, iOS,\\Windows Phone,\\Blackberry\end{tabular} & By request \\ \hline
+\rowcolor{colorCorporativoMasSuave}Sophos Mobile Control & Proprietary & \begin{tabular}[c]{@{}l@{}}Android, iOS,\\Windows Phone\end{tabular} & By request \\ \hline
+\rowcolor{colorCorporativoSuave}Samsung KNOX & Proprietary & \begin{tabular}[c]{@{}l@{}}Android, iOS,\\Samsung devices\end{tabular} & \begin{tabular}[c]{@{}l@{}}12\$ per\\year/device\end{tabular} \\ \hline
+\rowcolor{colorCorporativoMasSuave}Blackphone & Proprietary & Own device & 120\$ per year \\ \hline
+\rowcolor{colorCorporativoSuave}Android for Work & Proprietary & \begin{tabular}[c]{@{}l@{}}Android,\\devices with\\Chrome browser\end{tabular} & \begin{tabular}[c]{@{}l@{}}12\$ per\\month/user\end{tabular} \\ \hline\hline
+\end{tabular}
+}
+\caption{Features of the analysed products considering licenses, type of devices and OS, and price..}
+\label{tab:features}
+\end{SCtable}
 
 
 Another comparison would be that the existing products are mostly policy-based, while MUSES makes its decisions not only considering policies, but also based on the terminals and users context, such as connection properties, or trust value of the device, to really understand the real risk that comes with a specific action.
