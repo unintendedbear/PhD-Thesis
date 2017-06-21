@@ -79,22 +79,26 @@ the extraction of new attributes from the initial, monitored ones, to keep the i
 The main manufacturers have also given their attention to this BYOD paradigm, and they have tried to propose solutions, but only for their platforms \cite{de2015corporate}. In some cases, the user even has to consider buying a new device if they want to be more secure.
 
 % How can we benefit and how can we help
-The methodology proposed in this thesis is a server-side solution that is platform independent and works with the data at hand. %Pablo: cuidado con esta frase, que a lo mejor dicen algo
+The methodology proposed in this thesis is a server-side solution that is platform independent and works with the data at hand. %Pablo: cuidado con esta frase, que a lo mejor dicen algo, explícala un poco mejor
 
 \subsection{Open science}
 \label{subsec:openS}
 
 % I know i'm barely copying Pablo but here we can talk about not available datasets and their problems (privacy).
-The lack of BYOD-related security databases is a hindrance for the proliferation of research in this field. This situation clearly exists due to privacy considerations. And even after anonymising the resulting dataset, one can still, in certain cases, identify a user of the company the data comes from by processing the data. If this principle cannot be guaranteed, the data should not be released \cite{boillat2014handbook}. Furthermore, the commercial products that exist in the market \cite{de2015corporate} are proprietary software and whatever techniques they might use to detect new threats cannot be used for research.
+The lack of BYOD-related security databases is a hindrance for the proliferation of research in this field. This situation clearly exists due to privacy considerations. 
+%Pablo: el siguiente párrafo lo movería a "User Privacy" en vez de Open Science. Y metería movidas de Open Science guay de que usamos repos, papers colaborativos y to eso
+And even after anonymising the resulting dataset, one can still, in certain cases, identify a user of the company the data comes from by processing the data. If this principle cannot be guaranteed, the data should not be released \cite{boillat2014handbook}. Furthermore, the commercial products that exist in the market \cite{de2015corporate} are proprietary software and whatever techniques they might use to detect new threats cannot be used for research.
 
 % How can we contribute to open science
-However, with this thesis we wan to contribute to open science and the research on applications of Genetic Programing. The specific source code of the proposed methodology is available under a LGPL V3 License at \url{https://github.com/fergunet/GPRuleRefinement}.
+However, with this thesis we wan to contribute to open science and the research on applications of Genetic Programing. 
+%Pablo: no solo genetic programming, has usado más técnicas
+ The specific source code of the proposed methodology is available under a LGPL V3 License at \url{https://github.com/fergunet/GPRuleRefinement}. %Pablo: pon mejor tu repo :)
 
 \subsection{Applications}
 \label{subsec:apps}
 
 % About what are the researchers researching?
-The interest in the research fields of ML and Data Mining (DM) has increased with the need to perform DM and knowledge extraction over huge amounts of data \cite{witten2016data}, in order to extract the necessary knowledge to classify incoming events. More precisely and inside ML, Genetic Programming (GP) has been used to create classification rules for security policies \cite{freitas2002data, DeFalco2002257, sec_policy_evolution_gp_08, pol_evol_gp_3_approaches_08}. The applications of DM and ML are diverse; DM over forensics data is crucial to detect malware \cite{Ma:2011:LDM:1961189.1961202, DeVel2001} and intruders in a system \cite{Jaswal2015} or unusual network traffic \cite{Shalaginov2017359}, DM and ML together are being widely applied over health data for disease detection \cite{Murdoch20131351}, and also to perform sentiment analysis \cite{Poria201445, Ravi201514} and human behaviour analysis \cite{Kosinski20135802}, to cite the most prolific.
+The interest in the research fields of ML and Data Mining (DM) has increased with the need to perform DM and knowledge extraction over huge amounts of data \cite{witten2016data}, in order to extract the necessary knowledge to classify incoming events. More precisely and inside ML, Genetic Programming (GP) has been used to create classification rules for security policies \cite{freitas2002data, DeFalco2002257, sec_policy_evolution_gp_08, pol_evol_gp_3_approaches_08}. The applications of DM and ML are diverse; DM over forensics data is crucial to detect malware \cite{Ma:2011:LDM:1961189.1961202, DeVel2001} and intruders in a system \cite{Jaswal2015} or unusual network traffic \cite{Shalaginov2017359}, DM and ML together are being widely applied over health data for disease detection \cite{Murdoch20131351}, and also to perform sentiment analysis \cite{Poria201445, Ravi201514} and human behaviour analysis \cite{Kosinski20135802}, to cite the most prolific. %Pablo: mueve mejor esta sección arriba de Open Science
 
 \section{Objectives}                     
 \label{sec:intro:objs}
@@ -106,21 +110,22 @@ The interest in the research fields of ML and Data Mining (DM) has increased wit
 \subsection*{Objective 1: \objectivescenarios}
 \label{subsec:intro:obj:problems}
 
-As it has been mentioned, the main problem is to be able to extract inference rules from past behaviour instances that might help the CSO in a BYOD environment in the definition and refinement of security policies that, eventually, classify an upcoming event or user action as permitted or not permitted.Before starting to look for the best techniques, it is fundamental that we determine the surroundings of the problem, as well as establish the metrics and limits to which we can consider that a solution is \textit{good}. This will be, thus, the first objective. 
+As it has been mentioned, the main problem %Pablo: the main problem in this scope, scenario blablabla
+is to be able to extract inference rules from past behaviour instances that might help the CSO in a BYOD environment in the definition and refinement of security policies that, eventually, classify an upcoming event or user action as permitted or not permitted. Before starting to look for the best techniques, it is fundamental that we determine the surroundings of the problem, as well as establish the metrics and limits to which we can consider that a solution is \textit{good}. This will be, thus, the first objective. 
 
 To accomplish this objective, we have set a number of tasks, described as follows:
 
 \begin{enumerate}
 	\item To study the State of the Art from two points of view: state of the use of owning devices by the workforce, and solutions for BYOD found in the market with their advantages and disadvantages. This way we obtain the characterisation of the scenario in which we are going to work, what has been done, and what it is yet to be achieved.
 	\item To propose the set of metrics that will validate a BYOD solution, based on the gathered information from the state of the art.
-	\item To define the limits for each metric, so that we can establish measures while developing the methodology as a solution for BYOD.
+	\item To define the limits for each metric, so that we can establish measures while developing the methodology as a solution for BYOD. %Pablo: no es exactamente una solución para BYOD, si no para aplicar a un escenario concreto de BYOD (pon algo así)
 \end{enumerate}
 
 % The conclusion would be:
 % We have described the target environment in which to deploy our methodology, including a study of the use cases. Also, we have defined the metrics for measuring the efficiency of a particular set of security rules. This way, we have established that a set of security rules must have a number of FP and FN of _.
 
 \newcommand{\objectivedata}{To obtain the set of data and choose the best Soft Computing techniques for processing it.}
-
+%Pablo: ya sé que hemos decidido los objetivos, pero a lo mejor poner un poco más de info al título?
 \subsection*{Objective 2: \objectivedata} 
 \label{subsec:intro:obj:methodology}
 
@@ -136,7 +141,7 @@ Behavioural data, in the context or scenario that is defined for \textbf{Objecti
 % The conclusion would be:
 % We have set which variables are of interest to use as input and the extra knowledge that can be derived from them. Additionally, the preprocessing phase has been defined, and we have detailed which techniques should be use in every case, depending on the data at hand.
 
-\newcommand{\objectivetechniques}{To choose the Machine Learning techniques that suit best to the problem and allow to obtain the best values according to the metrics.}
+\newcommand{\objectivetechniques}{To choose the Machine Learning techniques that suit best to the problem and allow to obtain the best values according to the metrics.} %Pablo: lo de ML vs SC, creo que mejor quedarnos con uno solo, además, me quedaba con SC, ya que es el título
 
 \subsection*{Objective 3: \objectivetechniques}
 \label{subsec:intro:obj:fwork} 
@@ -145,9 +150,9 @@ The last objective is to find the actual techniques that will obtain the securit
 
 \begin{enumerate}
 	\item To review different configurations or parameters in the algorithmsso that the methodology can be adapted to the input data.
-	\item To validate the complete methodology over real sets of data.
+	\item To validate the complete methodology over real sets of data. %Pablo: Cómo se va a hacer? Frase corta
 	\item To present the resulting rules in a easy readable way.
-	\item To use the validation of the rules by an expert as feedback for the algorithm.
+	\item To use the validation of the rules by an expert as feedback for the algorithm. %Pablo: cuál experto?
 \end{enumerate}
 
 % The conclusion would be:
