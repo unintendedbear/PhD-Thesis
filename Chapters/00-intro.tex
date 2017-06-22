@@ -11,17 +11,17 @@
 \section{Goals of this Thesis} 
 
 \lettrine{T}{he} goal of this thesis is to develop a methodology of data preprocessing, behaviour analysis, and consequent rule creation in a Bring Your Own Device (BYOD) context. This methodology proposes using a combination of Data Mining (DM) and Soft Computing (SC) techniques %Pablo: Habría que dejar clara la diferencia entre los dos en algún sitio en la intro, o quizás solo centrarse en un término.
-% He cambiado ML por data mining a ver si así queda mejor
+% He cambiado ML por data mining a ver si así queda mejor. Pablo: Uuuuhm, sigo dándole vueltas a ver cuando Maribel te lo revise qué opina. Es que es un follón las definiciones de cada cosa, porque es casi todo lo mismo xD
  over context information related to a user interacting with a device, making benefit of the feature of rule model creation in some of these techniques. As a validation of this methodology, we will use it to help evolving an initial, simple, and fixed set of security rules into a new set of rules that will aid in the discovery of dangerous situations.
 
 \section{Motivation}
 \label{sec:intro:byod}
 
 \lettrine{T}{he} fast pace of introduction of new technologies, including the so-called \textit{smart devices}, has led modern computing to move in a short period of time to smaller, more reliable, and faster devices such as smartphones, laptops, and tablets. At the same time, the use people give them is more varied and, among others, has given birth to the form of use known as the ``Bring Your Own Device'' (BYOD) concept or philosophy. Its first appearance as a concept was in research \cite{ballagas2004byod} as a way to name the interaction between people's devices and a public display, for instance, an advertising where people translate a QR code with their devices that takes them to a commercial website. %Pablo: lo del "piece of art" ahí me lía un poco xD
-% Paloma: Es que es como empezó, con cosas como anuncios u obras de arte en las que la gente se descarga info por bluetooth u ofertas... lo he intentado explicar mejor
-Since then. it has become a very popular practise, integrated into companies \cite{thomson2012byod} and even schools \cite{song2014bring}.
+% Paloma: Es que es como empezó, con cosas como anuncios u obras de arte en las que la gente se descarga info por bluetooth u ofertas... lo he intentado explicar mejor. Pablo: guay
+Since then, it has become a very popular practise, integrated into companies \cite{thomson2012byod} and even schools \cite{song2014bring}.
 
-More precisely, in the corporate world the BYOD practice refers to allowing employees to use their personal laptops, smartphones, tablets, and other mobile devices for work-related tasks, while not necessarily being in the workplace. This has many advantages \cite{singh2012byod}; among them it is worth to mention saving costs and increasing flexibility and worker productivity. It is costs-saving because the company saves money on high-priced devices that it would normally be required to purchase for their employees And also, it increases flexibility  as employees will not be asked to haul around multiple devices to satisfy both their personal and work needs %Pablo: el párrafo anterior quizás separarlo en dos frases. % Paloma: pues lo he separado en tres! jajajaja
+More precisely, in the corporate world the BYOD practice refers to allowing employees to use their personal laptops, smartphones, tablets, and other mobile devices for work-related tasks, while not necessarily being in the workplace. This has many advantages \cite{singh2012byod}; among them it is worth to mention saving costs and increasing flexibility and worker productivity. It is costs-saving because the company saves money on high-priced devices that it would normally be required to purchase for their employees. And also, it increases flexibility  as employees will not be asked to haul around multiple devices to satisfy both their personal and work needs %Pablo: el párrafo anterior quizás separarlo en dos frases. % Paloma: pues lo he separado en tres! jajajaja
 Other advantages are tied to the increase of worker satisfaction, attracting the best candidates, and the increase of engagement in the workplace and after hours \cite{singh2012byod}.
 
 It has, however, a big disadvantage concerning security, since potentially unsecured devices from unaware users might interact with important company assets. Clearly the uncontrolled access to internal networks by the personal devices, for which companies have control limits due to privacy concerns \cite{miller2012byod}, exposes the companies to security risks such as data leakage, improper decommissioning, phishing that is focused on a specifig group or company, surveillance, and many others possible threats\cite{lennon2012changing}.
@@ -42,12 +42,12 @@ Our solution is able to propose new security rules, that is platform independent
 % Problem:
 Different researchers have addressed the issue of using quality data to obtain accurate and valuable extracted knowledge, which is specially difficult when dealing with datasets taken from real world problems, where the sensors cannot work properly at a certain time. To avoid this, researchers have advanced the state of the art in the precision of the devices. 
 %Pablo: El siguiente párrafo muevelo al SOTA, y aquí resúmelo en una frase corta
-% Paloma: ¿así bien? 
+% Paloma: ¿así bien? Pablo: perfect
 For instance, in \cite{rios2015mobile}, the authors focus on the importance of having an accurate measure of the location of the devices, obtaining promising results that allow the companies to use the location of their employees to apply certain security policies.
 
 % How can we benefit and how can we help
 In our case, an accurate detection of the location could be used to obtain more information about the context in which the user is making the action, for example if they are sending an email with an important attachment and outside of the company premises.
-%Pablo: algún ejemplo de happening event? $ Paloma: ¿algo así?
+%Pablo: algún ejemplo de happening event? $ Paloma: ¿algo así? Pablo: oks
  That information could increase the classification accuracy. At the same time, the extracted rules as a result from the methodology we propose in this thesis can help the company in indentifying certain locations as ``dangerous'' or ``safe''.
 
 \subsection{User behaviour}
@@ -57,7 +57,7 @@ In our case, an accurate detection of the location could be used to obtain more 
 Even not on purpose, the users of the system are considered the main hazard due to their ignorance about company security rules  \cite{Adams_users99}. They want to benefit from the BYOD philosophy, so that they can balance their private and work life, but they usually are not familiar with the Corporate Security Policy (CSP) of their company.  Actually, the employees have a natural tendency to comply with the security policies \cite{Sip_SecPriv07,Bulg_SecPol10,AlOmari_SecPol12}, and that good intention increases by educating or training them in information security awareness  \cite{Shaw_SecAware09}, and decreases applying too much sanctions when a misuse or abuse occurs \cite{Her_SecPol09}.
 
 % How can we benefit and how can we help
-Soft Computing techniques, such as data visualisation, can help in understanding the behaviour of the users and the risks it might carry. We propose the use of these techniques, along with rule inference,  %Pablo: en vez de "among others" poner ejemplos de técnicas % Paloma: ¿completando así es bien?
+Soft Computing techniques, such as data visualisation or rule inference, can help in understanding the behaviour of the users and the risks it might carry. We propose the use of these techniques,  %Pablo: en vez de "among others" poner ejemplos de técnicas % Paloma: ¿completando así es bien? Pablo: mira a ver si el cambio que he hecho suena mejor
  to aid the CSO presenting conclusions to the company, also helping them to identify possible threats.
 
 \subsection{User privacy}
@@ -77,14 +77,14 @@ the extraction of new attributes from the initial, monitored ones, to keep the i
 The main manufacturers have also given their attention to this BYOD paradigm, and they have tried to propose solutions, but only for their platforms \cite{de2015corporate}. In some cases, the user even has to consider buying a new device if they want to be more secure.
 
 % How can we benefit and how can we help
-The methodology proposed in this thesis is a server-side solution that is platform independent and works with the data at hand. %Pablo: cuidado con esta frase, que a lo mejor dicen algo, explícala un poco mejor
+The methodology proposed in this thesis is a server-side solution that is platform independent and works with the data at hand. %Pablo: cuidado con esta frase, que a lo mejor dicen algo, explícala un poco mejor. Pablo: no te olvides de addressar esto
 
 \subsection{Open science}
 \label{subsec:openS}
 
 % I know i'm barely copying Pablo but here we can talk about not available datasets and their problems (privacy).
 The lack of BYOD-related security databases is a hindrance for the proliferation of research in this field. This situation clearly exists due to privacy considerations. 
-%Pablo: el siguiente párrafo lo movería a "User Privacy" en vez de Open Science. Y metería movidas de Open Science guay de que usamos repos, papers colaborativos y to eso
+%Pablo: el siguiente párrafo lo movería a "User Privacy" en vez de Open Science. Y metería movidas de Open Science guay de que usamos repos, papers colaborativos y to eso Pablo2: mueve también la frase de arriba. Deja esta sección sólo para hablar de repos, SL, y tal.
 And even after anonymising the resulting dataset, one can still, in certain cases, identify a user of the company the data comes from by processing the data. If this principle cannot be guaranteed, the data should not be released \cite{boillat2014handbook}. Furthermore, the commercial products that exist in the market \cite{de2015corporate} are proprietary software and whatever techniques they might use to detect new threats cannot be used for research.
 
 % How can we contribute to open science
@@ -116,7 +116,7 @@ To accomplish this objective, we have set a number of tasks, described as follow
 \begin{enumerate}
 	\item To study the State of the Art from two points of view: state of the use of owning devices by the workforce, and solutions for BYOD found in the market with their advantages and disadvantages. This way we obtain the characterisation of the scenario in which we are going to work, what has been done, and what it is yet to be achieved.
 	\item To propose the set of metrics that will validate a BYOD solution, based on the gathered information from the state of the art.
-	\item To define the limits for each metric, so that we can establish measures while developing the methodology as a solution for a BYOD scenario. %Pablo: no es exactamente una solución para BYOD, si no para aplicar a un escenario concreto de BYOD (pon algo así) % Paloma: Creo que lo he especificado mejor ahora (?).
+	\item To define the limits for each metric, so that we can establish measures while developing the methodology as a solution for a BYOD scenario. %Pablo: no es exactamente una solución para BYOD, si no para aplicar a un escenario concreto de BYOD (pon algo así) % Paloma: Creo que lo he especificado mejor ahora (?) Pablo: ok!.
 \end{enumerate}
 
 % The conclusion would be:
@@ -124,7 +124,7 @@ To accomplish this objective, we have set a number of tasks, described as follow
 
 \newcommand{\objectivedata}{To obtain the set of data and choose the best Soft Computing techniques for pre-processing it, to avoid problems of real world datasets.}
 %Pablo: ya sé que hemos decidido los objetivos, pero a lo mejor poner un poco más de info al título?
-% Paloma: ¿algo mejor? ¿o peor?
+% Paloma: ¿algo mejor? ¿o peor? Pablo: mejor
 \subsection*{Objective 2: \objectivedata} 
 \label{subsec:intro:obj:methodology}
 
@@ -149,9 +149,9 @@ The last objective is to find the actual techniques that will obtain the securit
 
 \begin{enumerate}
 	\item To review different configurations or parameters in the algorithmsso that the methodology can be adapted to the input data.
-	\item To validate the complete methodology over real sets of data. %Pablo: Cómo se va a hacer? Frase corta
+	\item To validate the complete methodology over real sets of data. %Pablo: Cómo se va a hacer? Frase cortaf
 	\item To present the resulting rules in a easy readable way.
-	\item To add the validation of the rules by the CSO as feedback parameter for the algorithm. %Pablo: cuál experto? % Paloma: ¿Mejor? es el CSO, vamos, lo que quiero decir es que tenga esa funcionalidad también, pero no sé si lo he explicado bien...
+	\item To add the validation of the rules by the CSO as feedback parameter for the algorithm. %Pablo: cuál experto? % Paloma: ¿Mejor? es el CSO, vamos, lo que quiero decir es que tenga esa funcionalidad también, pero no sé si lo he explicado bien... %Pablo: sí, pero son objetivos para tu tesis, no los objetivos de la metodología en sí. Es decir, si un CSO no va a revisar tus reglas para esta tesis, mejor no lo pongas.
 \end{enumerate}
 
 % The conclusion would be:
