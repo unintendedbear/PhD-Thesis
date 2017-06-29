@@ -70,6 +70,34 @@ The latest found report from Cisco is from 2014 \cite{cisco2014}. In this one th
 
 On the other hand, a series of interviews and surveys were carried out during the MUSES project. They are detailed in \cite{musesD41, musesD42}.
 
+The first document is devoted to identify what is called a ``Persona'', i.e. a user archetypes \cite{adlin2010essential}. To this end, both employees and CSOs were interviewed or presented a questionnaire about the devices they used and the security policies of their companies. Thus, the main conclusions from the study are these:
+
+\begin{itemize}
+	\item From the employees side, the study includes focus groups and an online questionnaire. In total, there were 21 people in the focus groups and 448 people responded to the online questionnaires. All reported to be experienced with technology and are from different countries.
+	\begin{itemize}
+		\item Half of the participants have company used devices, and when asked which ones, the most named were desktops, laptops, and smartphones in that order.
+		\item It was observed that freelancers and self-employers were the ones who mostly tend to use their private devices for work purposes. Everyone agreed with their companies liking this practice because the employees are reachable beyond working time.
+		\item When asked about security issues, the participantes relate this term to computer or software viruses. Actually, the way they consider they could lose their private data is by losing their smartphones; otherwise they do not think that somebody would be interested in stealing them.
+		\item The majority of people surveyed assured they follow company security protocols such as having strong passwords and making periodic backups. But, as reported in the Cisco study \cite{cisco2012}, most of the people in the interviews agreed with the IT department being responsible for security.
+		\item With respect to working remotely, more than a half (52'7\%) of the participants said to work up to 55\% of their working time remotely, although 50'7\% -- a little less -- said they work up to 55\% at their homes.
+		\item Related to that, less than 20\% of the respondants reported that they do not work overtime. From the rest, the most part (39\%) spend between 2 and 8 hours working out of the working time, and only 11'3\% said to work more than 8 hours overtime. Nevertheless, the 72'4\% of these people assured that they are not getting paid for the extra work hours.
+		\item In regard to the private devices for work purposes, in 20\% of the cases, the employer allows them. In spite of that, 44'6\% of employees responding say that they do not have an explicit security for that. Only 27'3\% declared that their company has a specific security policy for BYOD, and of those, 41'7\% say that they had it for at least 2 years.
+		\item Overall, they agree with the statement ``personal and work issues are mixing more and more in my daily life''. Actually, the most proclaimed personal things the participants said they did with their corporate devices, and during work time, were checking private e-mails, making private calls, surfing the web, and checking social networks. At the same time, the top mentioned work related actions made out of the working time and with private devices were checking corporate e-mails, make work related phone calls, accessing files and data, and creating and editing documents, spreadsheets, and presentations.
+		\item When asked about their security awareness, the 62\% of the people responding assured that they receive security policy information by their companies through e-mail, newsletter, or group discussions and workshops.
+	\end{itemize}
+	\item With regard to the CSOs, 15 were interviewed, from 3 different countries.
+	\begin{itemize}
+		\item 11 of the 15 participants have corporate smartphones and all used them also privately, even though only 9 of them had explicit persmission from their companies to do so.
+		\item In addition, 10 out of 15 have a private smartphone, and 8 CSOs use it for work related matters, but only half of those were allowed by their companies.
+		\item All 15 have company owned laptops. From the 10 that use them privately, only 6 have permission from the company.
+		\item All the CSOs said that company laptops of computers have a firewall and antivirus software, and overall they agreed with their companies having strong security measures.
+		\item Moreover, the participants said that in their companies, they apply one global security policy, although sometimes a different one is applied for external workers.
+		\item In addition, they agreed with their companies not officially regulating BYOD even though it was permitted to some extent.
+	\end{itemize}
+\end{itemize}
+
+We can see that BYOD is a need for employees, and that the companies tend to allow it without properly securing the environment.
+
 \subsection{Other fields that have adopted BYOD}
 \label{subsec:byodother}
 
@@ -228,10 +256,9 @@ Once the main tools and systems in this area have been introduced, in the follow
 \section{MUSES Advantages over Other Solutions. Beyond the State of the Art}
 \label{sec:comparison}
 
-MUSES is mainly a free, open-source, platform independent solution, and adopts the recommended best practices by Romer \cite{Romer14BestPractices}. %Está bien aquí Fergu?
-These features make it a good alternative to most of the proprietary, close and system-specific tools presented in Section \ref{sec:toolsreview} (all but WSO2). In addition, most of the existing tools take into account only smartphones and tablets, but MUSES also covers laptops and company PCs, thus, it is not only for BYOD. Moreover, the companies which might want to work with one of the reviewed systems need a specific operating system in the server, being even more restrictive in some cases. This is specially remarkable in the case of the Blackphone, forcing the companies and the employees to purchase a specific device. MUSES is a good solution towards these cases, since it is a multi-platform system in both the client and the server. 
+MUSES is mainly a free, open-source, platform independent solution, and adopts the recommended best practices by Romer \cite{Romer14BestPractices}. These features make it a good alternative to most of the proprietary, close and system-specific tools presented in Section \ref{sec:toolsreview} (all but WSO2). In addition, most of the existing tools take into account only smartphones and tablets, but MUSES also covers laptops and company PCs, thus, it is not only for BYOD. Moreover, the companies which might want to work with one of the reviewed systems need a specific operating system in the server, being even more restrictive in some cases. This is specially remarkable in the case of the Blackphone, forcing the companies and the employees to purchase a specific device. MUSES is a good solution towards these cases, since it is a multi-platform system in both the client and the server. 
 Table \ref{tab:taxonomy} summarizes the features of the main analyzed tools, with respect to the proposed taxonomy in Section \ref{sec:toolsreview}. Also, Table \ref{tab:features} shows the features of the analyzed products considering licenses, type of supported devices, and price.
-% Antonio - Antares, ¿podrías incluir en la comparativa las otras herramientas que se han analizado? Las de Citrix, WSO2, Azzurri, Good...
+
 
 \begin{SCtable}[][tb]
 \resizebox{11cm}{!}{
@@ -273,16 +300,8 @@ Another comparison would be that the existing products are mostly policy-based, 
 
 Also related to this issue, a very big advantage of the MUSES system that is not present in the other solutions is its self-adaptivity power. The proposed system uses different methods to create new security rules, being their aim to cover new vulnerabilities or threats. Thus, MUSES is able to adapt to changes by applying classification techniques to create new rules, and then refining the whole set of existing policies. Additionally, MUSES is able to discover new threats by a combination of real-time risk and trust analysis plus a classifier trained with all the occurred events in the system.
 
-However, MUSES presents a limitation regarding the enhance of rules,
-since, in principle, it cannot predict or generate rules for dealing
-with unexpected or unknown events, which could lead to a security
-incident. The philosophy is that the initial set of rules, defined by
-the CSO, should be very restrictive regarding possible unexpected
-users' behaviours or events, in order to avoid as much security
-incidents as possible. As the system works, MUSES would be able to
-define new rules through refinement which could get an associated
-decision after the corresponding events have happened. Thus, this will
-lead to obtaining an optimal set of security rules.
+However, MUSES presents a limitation regarding the enhance of rules, since, in principle, it cannot predict or generate rules for dealing
+with unexpected or unknown events, which could lead to a security incident. The philosophy is that the initial set of rules, defined by the CSO, should be very restrictive regarding possible unexpected users' behaviours or events, in order to avoid as much security incidents as possible. As the system works, MUSES would be able to define new rules through refinement which could get an associated decision after the corresponding events have happened. Thus, this will lead to obtaining an optimal set of security rules.
 
 In addition, MUSES can also infer or create new rules using computational intelligence techniques. These rules could deal with unexpected situations not previously happened, but must be previously approved by the CSO. Of course, everything is constrained by the available set of sensors which, in turn, define the possible information that MUSES will analyze and use in the refinement and inference processes.
 
