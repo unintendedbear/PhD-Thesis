@@ -15,8 +15,75 @@
 
 \section{Use case identification}
 
+As previously highlighted, the main idea behind corporate security
+policies, which are defined by the CSO, is to build a basic, fixed,
+and well defined set of rules, which take the form of \textsc{IF
+  \ldots THEN} clauses. By applying them, the company system decides if certain conditions are met in order to allow or
+deny access to an asset, whether is from the company or is accesed from it. 
+Therefore, these rules can be visualised as the actions, taking place in a precise environment, being classified as
+allowed or denied. In this sense and while facing a security breach
+from a BYOD system, the set of rules will be tested looking for
+matches between the access' characteristics and the rules' premises --
+the conditions expressed in the IF part, also known as the description
+of the rule [\cite{DeFalco2002257}]. If it matches then the decision can
+be made, by checking the conclusion part of the rule, which comes
+after the THEN and indicates the class [\cite{DeFalco2002257}], either
+by allowing or denying employees' access to non-confidential
+ or non-certified data, for example. However, it is important to
+ mention that the companies'  set of security rules defined by the CSO is
+ based on known and previously recognised accesses and thus it cannot
+ cover the whole, safe and unsafe, search spaces. Therefore,
+ there is an urgent need to develop a system capable of discovering a
+ more reliable rule set which should be able to cover every new
+ situation that may be a threat. Hence, allowing the company security
+ system to go beyond the limited set of known, pre-defined rules.  % This rather belong to the introduction - JJ
+ % (Paloma) The whole paragraph?
+% What do you think? - JJ
+
+Our proposed solution is based on a novel GP framework dedicated for
+the BYOD context and capable of performing an automatic and wider discovery of classification rules. More precisely, our GP based framework will, first, extract all the possible values of every attribute in the data at hand and then make the GP algorithm evolving. 
+Specifically, in this context, we have decided to follow the more
+conventional approach in Genetic Programming, the Pittsburgh approach
+[\cite{freitas2002data}], meaning that each individual is seen as a set
+of rules. However, in this work we have also implemented the Michigan
+approach, where every indidual is a single rule. The aim of having these two different implementations is to choose the most efficient, in terms of time to find the solution, best fitness, accuracy in the validation phase, and readability.
+
+The last step would be to present the rules -- solution -- to the CSO of the company and tune the algorithm according to the decision of
+finally including or not the set of rules in the main security
+policy. The description of the used data and further explicit details
+about our proposed solution are given in what is next.
 
 \section{Data identification}
+
+The set of used data has been gathered from the trials that were performed
+ during the development of an FP7 European Project, called MUSES
+ [\cite{DBLP:conf/sac/MoraCGZJEBAH14}]. In these trials, a group of
+ users tested a smartphone and PC application meant for securing a
+ BYOD environment. The application generates warnings when the users
+ act in a dangerous way. Technically, these warnings are triggered by
+ a set of initial and pre-defined rules, so that when certain
+ conditions are met in an ``event'' (an action performed by a user),
+ the corresponding action could be allowed - nothing happened - or
+ denied, where a warning appears explaining the rule that the user did not comply with and how to perform the action in a more secure way or environment.
+
+The dataset contains a set of these ``events'' from which a number of attributes (variables) have been extracted or are given by the application itself. User data has been also extracted but anonymised, in the sense that from all the attributes extracted from the user actions, the username is not included as a variable to build rules with. The attributes can be classified in different ways; one of them is based on whether they are directly read from the application or inferred after processing the read data. Therefore, we distinguish between:
+\begin{itemize}
+  \item Attributes given by the tested application: these attributes
+    are related to the type of the event (action), its timestamp, or
+    the application which originated the event, among others. 
+  \item Attributes inferred from the information in the database: the information given by the aforementioned attributes, along with the rest of information already existing in the database, helps inferring other attributes. These are, for instance: all extra information related to the origin, like the user position in the company or the device Operating System; the configuration of the device, such as WiFi or Bluetooth being enabled; and even lexical properties of the user password, in order to avoid storing the password itself or using it for classification or rule generation.
+\end{itemize}
+
+The trials had a duration of five weeks, and a total of 
+153270 events were registered in the database. We filtered those events that did not imply access to assets, meaning that they were not useful for
+knowledge extraction purposes, such as events of \textit{log in},
+\textit{log out}, or \textit{restarting the server}.
+The remaining was a 35\% (53296 instances) of the total, and were considered as \textit{important}
+because they did contain information about user actions such as
+opening files or sending emails in a certain connection environment,
+changing security properties, or installing apps. Altogether, there
+are 38 attributes, plus the class, which can take two possible values:
+GRANTED or STRONGDENY. 
 
 
 \section{Analysis}
@@ -26,3 +93,313 @@
 
 
 \section{Applying the most suitable soft computing techniques}
+
+\subsection{Experimental Setup}
+\label{sec:experiments}
+
+Once the methods to compare have been explained, the rest of the experimental setup is described.
+
+The configurations that will be compared involve two different encoding of individuals (Pittsburgh tree individuals vs. Michigan list individuals), two types of fitness ($f_{CS}$ and $f_{Acc}$), and three different values for $\alpha$ in the case of $f_{Acc}$.
+
+With respect to the GP parameters, different decisions for experimental design have been taken into account. 
+First, sub-tree crossover and 1-node mutation evolutionary operators have
+been used, following our previous works that have used these operators
+obtaining good results [\cite{EvoStar2014:GPBot}]. In this case, during the
+mutation operation, there is a 50\% of probabilty to change the complete variable (prefix, name, operator and value) or only the value. A population of 32 individuals and a 2-tournament selector for a pool of
+16 parents have been used. These parameters have been also previously used in previous GP works [\cite{EvoStar2014:GPBot}]. Table \ref{tab:parameters} summarises all the parameters used.
+
+\begin{table}
+\begin{center}
+\caption{Parameters used in the experiments.}
+\resizebox{8cm}{!}{
+\begin{tabular}{|c|c|}
+\hline
+{\em Parameter Name} & {\em Value} \\\hline
+Population size & 32 \\\hline
+Crossover type & Sub-tree crossover \\ \hline
+Crossover rate & 0.5\\ \hline
+Mutation  & 1-node mutation\\ \hline
+Selection & 2-tournament \\ \hline
+Replacement & Generational with elitism\\ \hline
+Stopping criterion & 150 generations \\ \hline
+Maximum Tree Depth & 10 \\ \hline 
+Runs per configuration & 10 \\ \hline
+\multicolumn{2}{|c|}{{\em Compared configurations}} \\ \hline
+Individual representation & Pittsburgh vs. Michigan \\ \hline
+Fitness & $f_{CS}$ VS $f_{Acc}$ \\ \hline
+$\alpha$ for $f_{CS}$ & 0, 0.5, and 1 \\ \hline
+
+\end{tabular}
+}
+\label{tab:parameters}
+\end{center}
+\end{table}
+
+During the fitness evaluation, the generated individual is converted
+into a string, which can become a single rule or set of rules
+depending on the approach, as previously described. % But this is what you are going to
+                           % compare. You should make a lot of more
+                           % emphasis - JJ
+Then, the chosen fitness is evaluated for a particular rule -- the single rule or each one inside the set -- and over the 90\% of the data.
+For further reliability of the results, it is advised to perform
+10-fold cross-validation [\cite{kohavi1995study}], and as such the WEKA %Pablo: it is worth mentioning WEKA here? (well, in fact, I wrote this paragraph, but Paloma decides)
+% (Paloma) Uhm, maybe it's not THAT necessary, but it does not bother either... i don't know xD 
+Java Library [\cite{HallWEKA09}] has been used to generate the 10 folds
+or distributions of data into 90\% training (fitness evaluation) and
+10\% validation. This way, each experiment has been executed 10 times,
+each one with a different distribution of data.
+
+The algorithms have been executed in a cluster node with 16 Intel(R) Xeon(R) CPU E5520
+@2.27GHz processors, 16 GB RAM, CentOS 6.8 and Java Version 1.8.0\_80.
+
+The specific source code of the proposed method is available under a LGPL V3 License 
+at \url{https://github.com/fergunet/GPRuleRefinement}, as a module for 
+the framework OSGiLiath [\cite{DBLP:journals/soco/Garcia-SanchezGCAG13}] 
+\footnote{The source code of OSGiLiath is available with the same license  as well, at \url{http://www.osgiliath.org}.}.
+
+\subsection{Results from Genetic Programming application} 
+\label{sec:gp}
+
+As our purpose in this paper is to obtain a system which proposes to a CSO useful security rules that improve the existing ones, and present them in an understandable way, in this section we compare the results from using two fitness functions
+described in Equations \ref{eq:accuracy} and \ref{eq:complexFitness}, as well as the two approaches taken -- Pittsburgh and Michigan --. In addition, an example of the individuals obtained will be presented in order to understand how the different approaches affect them, along with
+their advantages and disadvantages.
+Lastly, we will choose the best
+approach, justifying this choice. 
+
+% You are not examining different approaches and reporting results on
+% them. You are trying to solve a problem, for which you are testing
+% different approaches, and it should be very clear to you how to test
+% what solution is the best INDEPENDENTLY OF THE APPROACH, so you
+% might have to come up with a way of comparing solutions
+% independently of the fitness you are using. At any rate, the reader
+% is not interested in Pittsburgh and Michigan approaches _separately_
+% but on which one yields the best solution. Boils down to: don't
+% separate results, compare them, even less so in different
+% subsections.
+
+\subsubsection{$F_{Acc}$ vs. $F_{CS}$} 
+\label{subsec:fitnesscomparison}
+
+The aim of this comparison is to conclude which fitness function should be used, discussing the results from the point of view of convergence, and that means finding which one reaches the best value faster. To study this we have displayed the obtained fitness through the iterations for the Pittsburgh approach in Figure \ref{fig:pittsburghItvsF} and for the Michigan approach in Figures \ref{fig:michiganItvsF_allow} and \ref{fig:michiganItvsF_deny}. Figures for GRANTED and STRONGDENY classes are separated because the solution is a single rule instead of a set of rules, and therefore the algorithm has to be executed once per class. With regard to the best fitness obtained for each fitness function, they are similar in the same scope, which means that the different values of $\alpha$ in $f_{CS}$ did not present significant differences in the two approaches separately.
+
+\begin{figure*}[h!tb]
+\centering
+\includegraphics[width=0.8\textwidth]{img/Fig1.eps}
+\caption{Convergence of fitness for each one of the tested fitness
+  functions, and for Pittsburgh approach. Note that $f_{Acc}$ has to
+  be maximised, whereas $f_{CS}$ has to be minimised.}
+\label{fig:pittsburghItvsF}
+\end{figure*}
+
+For the sake of clarity, $f_{CS}$ has been divided by the maximum
+value -- the number of instances for training -- it might take. By
+looking at the Pittsburgh approach values in Figure
+\ref{fig:pittsburghItvsF}, we show that mostly all configurations tend to converge around iteration 40, but it seems that $f_{CS}$ with
+$\alpha = 0.5$ is the configuration that reaches the best solution
+faster, around the 30th iteration.  
+
+\begin{figure*}[h!tb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/Fig2.eps}
+	\caption{Convergence of fitness for each one of the tested fitness functions, and for Michigan approach being executed for the GRANTED class. Note that $f_{Acc}$ has to be maximised, whereas $f_{CS}$ has to be minimised.}
+	\label{fig:michiganItvsF_allow}
+\end{figure*}
+
+With respect to the Michigan approach, a higher variability is noticeable in Figures \ref{fig:michiganItvsF_allow} and \ref{fig:michiganItvsF_deny}, but in average we see that for $f_{CS}$ with $\alpha = 0$ or 1, the fitness do not converge until generation 120. The best ones are for $f_{Acc}$ and $f_{CS}$ with $\alpha = 0.5$, being the latter the one that converges faster, around the 50th iteration.
+
+\begin{figure*}[h!tb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/Fig3.eps}
+	\caption{Convergence of fitness for each one of the tested fitness functions, and for Michigan approach being executed for the STRONGDENY class. Note that $f_{Acc}$ has to be maximised, whereas $f_{CS}$ has to be minimised.}
+	\label{fig:michiganItvsF_deny}
+\end{figure*}
+
+We can advance that the best results might be obtained for $f_{CS}$
+with $\alpha = 0.5$. However, there is a considerable difference between the performance, in terms of best
+obtained fitness, of the two used approaches. In this way, we have to thoroughly compare them. In the next section we do so by chosing the validation coverage and the ratio of false positives and negatives as independent measurements. 
+
+\subsubsection{The Pittsburgh vs. Michigan approach} 
+\label{subsec:approachcomparison}
+
+Once the variability of the obtained fitness has been studied, and
+always taking into account that those values come from their
+evaluation in a training subset of the data, now we \textit{validate}
+the proposed approaches with a validation set, similar to the validation set used in classification problems [\cite{witten2005data}]. 
+ The way to evaluate this is similar to Equation \ref{eq:accuracy}, but using the validation subset of the data:
+
+\begin{equation}
+\label{eq:VALaccuracy}
+v_{Acc} = (TP + TN) / T_{val}
+\end{equation}
+
+This measure will be the same independently of the approach or fitness
+function has used to evaluate the individuals. Table
+\ref{tab:PvsMvalidation} shows the average, best, median, and worst
+results from the evaluations with $f_{Acc}$ and also $f_{CS}$. 
+
+\begin{table}
+	\centering
+	\caption{Comparison between Pittsburgh and Michigan approaches, in terms of their validation scores. Validation has been calculated as the accuracy in classifying a validation dataset. False positives and false negatives are also indicated, as one of our goals is to reduce the number of false positives. An \textbf{$*$} indicates the  statistically significant best value for $\alpha$, but only in the cases were we found statistically significant differences.}
+	\resizebox{13cm}{!}{
+		\begin{tabular}{llll|l|l|l|l|l|l|}
+			\cline{5-10}
+			&  &  &  & \multicolumn{6}{l|}{Validation measurement} \\ 
+			\cline{3-10} 
+			& \multicolumn{1}{l|}{}  & \multicolumn{2}{l|}{Fitness function}  & Average & Best & Median & Worst & FP & FN \\
+			\hline
+			\multicolumn{2}{|l|}{\multirow{6}{*}{\begin{tabular}[c]{@{}l@{}}Pittsburgh:\\ Individual eq. set of rules\end{tabular}}}  & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 0.925 $\pm$ 0.379e-2 & 0.929 & 0.926  & 0.917 & 0.075 $\pm$ 0.045e-1 & 0                    \\ \cline{3-10} 
+			\multicolumn{2}{|l|}{}                                                                                                                                                                                                 & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 0.926 $\pm$ 0.744e-2 & 0.945 & 0.926  & 0.917 & 0.072 $\pm$ 1.272e-2 & 0.002 $\pm$ 0.564e-2 \\ \cline{4-10} 
+			\multicolumn{2}{|l|}{}                                                                                                                                                                                                 & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 0.924 $\pm$ 0.371e-2 & 0.929 & 0.924  & 0.917 & 0.074 $\pm$ 0.451e-2 & 0 \\ \cline{4-10} 
+			\multicolumn{2}{|l|}{}                                                                                                                                                                                                 & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 0.925 $\pm$ 0.384e-2  & 0.929 & 0.926  & 0.917 & 0.075 $\pm$ 0.378e-2 & 0                    \\ \hline
+			\multicolumn{1}{|l|}{\multirow{8}{*}{\begin{tabular}[c]{@{}l@{}}Michigan:\\ Individual eq. one rule\end{tabular}}} & \multicolumn{1}{l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Class:\\ GRANTED\end{tabular}}}    & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 0.467 $\pm$ 0.143e-2 & 0.472 & 0.468  & 0.459 & 0.023 $\pm$ 0.095e-1 & 0                    \\ \cline{3-10} 
+			\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 0.466 $\pm$ 0.441e-2 & 0.472 & 0.467  & 0.459 & 0.021 $\pm$ 0.094e-1 & 0                    \\ \cline{4-10} 
+			\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 0.467 $\pm$ 0.305e-2 & 0.472 & 0.467  & 0.462 & 0.019 $\pm$ 0.088e-1 & 0                    \\ \cline{4-10} 
+			\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 0.465 $\pm$ 0.43e-2  & 0.472 & 0.467  & 0.458 & 0.023 $\pm$ 0.099e-1 & 0                    \\ \cline{2-10} 
+			\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Class:\\ STRONGDENY\end{tabular}}} & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 0.046\textbf{$*$} $\pm$ 0.74e-2  & 0.065 & 0.045  & 0.037 & 0 & 0.307 $\pm$ 0.745e-1 \\ \cline{3-10} 
+			\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 0.025 $\pm$ 1.527e-2 & 0.045 & 0.023  & 0.003 & 0 & 0.004 $\pm$ 0.039e-1 \\ \cline{4-10} 
+			\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 0.02 $\pm$ 1.603e-2  & 0.061 & 0.015  & 0.002 & 0 & 0.007 $\pm$ 0.063e-1 \\ \cline{4-10} 
+			\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 0.025 $\pm$ 1.948e-2 & 0.047 & 0.036  & 0     & 0 & 0.004 $\pm$ 0.049e-1 \\ \hline
+		\end{tabular}
+	}
+	\label{tab:PvsMvalidation}
+\end{table}
+
+In Section \ref{subsec:fitnesscomparison} we have shown that the performance in the
+fitness of the Michigan approach was worse than that of Pittsburgh,
+and now it is more clear, given that the accuracy over the validation set is
+not even 50\%. In fact, the dataset we are using is highly imbalanced; there are 1 instance
+in the training set of data labelled as STRONGDENY for every 13
+labelled as GRANTED. Thus, the results we have obtained are biased towards the majority
+class [\cite{japkowicz2002class}]. 
+
+At the same time, and because the distributions for the Michigan approach follow the normal, an ANOVA test has been performed in every class [\cite{DerracTests11}], obtaining a p-value of 0.5538 for the GRANTED class, meaning that there are not statistically significant differences in the results. However, in the case of the STRONGDENY class, using $f_{CS}$ significantly (p-value of 0.001736) decreases the accuracy over the validation set. With regard to how many FP and FN are obtained in every approach, we see in Table \ref{tab:PvsMvalidation} that for the Pittsburgh approach we generally obtain low rates or 0 -- ideal -- false negatives, and around 7\% rate of false positives -- almost 400 in average for our validation set --. On the other hand, best rates are found for the Michigan approach, where the rate of FP is, at most, 2.8\% -- around 113 instances in average --. And even if there were FN found, the average for the used validation set is 29 instances out of 5330, which is a very low number and as we explained before, in this BYOD scenario it is less worse to have FN than FP. Also, this imbalance in the FP and FN values is also caused by the imbalance in the dataset.
+
+% Esta se deja comentada por si piden mÃ¡s resultados
+
+%\begin{table*}
+%\centering
+%\resizebox{16.5cm}{!}{
+%\begin{tabular}{llll|l|l|l|l|l|l|}
+%\cline{5-10}
+%  &  &  &  & \multicolumn{6}{l|}{Validation measurement} \\ 
+%  \cline{3-10} 
+%  & \multicolumn{1}{l|}{}  & \multicolumn{2}{l|}{Fitness function}  & Average & Best & Median & Worst & FP & FN \\
+%  \hline
+%\multicolumn{2}{|l|}{\multirow{6}{*}{\begin{tabular}[c]{@{}l@{}}Pittsburgh:\\ Individual eq. set of rules\end{tabular}}}  & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 0.925 $\pm$ 0.379e-2 & 0.929 & 0.926  & 0.917 & 0.075 $\pm$ 0.045e-1 & 0                    \\ \cline{3-10} 
+%\multicolumn{2}{|l|}{}                                                                                                                                                                                                 & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 0.926 $\pm$ 0.744e-2 & 0.945 & 0.926  & 0.917 & 0.072 $\pm$ 1.272e-2 & 0.002 $\pm$ 0.564e-2 \\ \cline{4-10} 
+%\multicolumn{2}{|l|}{}                                                                                                                                                                                                 & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 0.924 $\pm$ 0.371e-2 & 0.929 & 0.924  & 0.917 & 0.074 $\pm$ 0.451e-2 & 0 \\ \cline{4-10} 
+%\multicolumn{2}{|l|}{}                                                                                                                                                                                                 & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 0.925 $\pm$ 0.384e-2  & 0.929 & 0.926  & 0.917 & 0.075 $\pm$ 0.378e-2 & 0                    \\ \cline{4-10}
+%\multicolumn{2}{|l|}{}                                                                                                                                                                                                 & \multicolumn{1}{l|}{}                          & $\alpha$ = 500   & 0.867 $\pm$ 0.337e-2  & 0.871 & 0.867  & 0.86 & 0.07 $\pm$ 0.382e-2 & 0                    \\ \cline{4-10}
+%\multicolumn{2}{|l|}{}                                                                                                                                                                                                 & \multicolumn{1}{l|}{}                          & $\alpha$ = 1000   & 0.867 $\pm$ 0.438e-2  & 0.871 & 0.868  & 0.859 & 0.066 $\pm$ 0.772e-2 & 0                    \\ \hline
+%\multicolumn{1}{|l|}{\multirow{8}{*}{\begin{tabular}[c]{@{}l@{}}Michigan:\\ Individual eq. one rule\end{tabular}}} & \multicolumn{1}{l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Class:\\ GRANTED\end{tabular}}}    & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 0.467 $\pm$ 0.143e-2 & 0.472 & 0.468  & 0.459 & 0.023 $\pm$ 0.095e-1 & 0                    \\ \cline{3-10} 
+%\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 0.466 $\pm$ 0.441e-2 & 0.472 & 0.467  & 0.459 & 0.021 $\pm$ 0.094e-1 & 0                    \\ \cline{4-10} 
+%\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 0.467 $\pm$ 0.305e-2 & 0.472 & 0.467  & 0.462 & 0.019 $\pm$ 0.088e-1 & 0                    \\ \cline{4-10} 
+%\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 0.465 $\pm$ 0.43e-2  & 0.472 & 0.467  & 0.458 & 0.023 $\pm$ 0.099e-1 & 0                    \\ \cline{2-10} 
+%\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Class:\\ STRONGDENY\end{tabular}}} & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 0.046 $\pm$ 0.74e-2  & 0.065 & 0.045  & 0.037 & 0 & 0.307 $\pm$ 0.745e-1 \\ \cline{3-10} 
+%\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 0.025 $\pm$ 1.527e-2 & 0.045 & 0.023  & 0.003 & 0 & 0.004 $\pm$ 0.039e-1 \\ \cline{4-10} 
+%\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 0.02 $\pm$ 1.603e-2  & 0.061 & 0.015  & 0.002 & 0 & 0.007 $\pm$ 0.063e-1 \\ \cline{4-10} 
+%\multicolumn{1}{|l|}{}                                                                                             & \multicolumn{1}{l|}{}                                                                             & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 0.025 $\pm$ 1.948e-2 & 0.047 & 0.036  & 0     & 0 & 0.004 $\pm$ 0.049e-1 \\ \hline
+%\end{tabular}
+%}
+%\caption{Comparison between Pittsburgh and Michigan
+%  approaches, in terms of their validation scores. Validation has been calculated as the accuracy in classifying a test dataset. An $*$ indicates
+%  the  statistically significant best value for $\alpha$.}
+%\label{tab:PvsMvalidation}
+%\end{table*}
+
+To evaluate computation costs of the two approaches, and taking into consideration the infrastructure available for the experiments (see Section\ref{sec:experiments}), we present the execution times in Table \ref{tab:PvsMtime}, detailed by their average value and standard deviation, along weith the best, worst, and median values. Time is expressed in hours, for the sake of clarification. In addition, the values for the Michigan approach are not separated by class this time, because in order to have the two rules - one for each class -- the CSO would have to wait for both executions.
+
+\begin{table*}
+	\centering
+	\caption{Comparison between Pittsburgh and Michigan approaches, in terms of their execution time. For the Michigan approach, times for executing the algorithm once for the GRANTED class and another for the STRONGDENY are presented together. An \textbf{$*$} indicates the  statistically significant best value for $\alpha$, but only in the cases were we found statistically significant differences.}
+	\resizebox{10.5cm}{!}{
+	\begin{tabular}{lll|l|l|l|l|}
+		\cline{4-7}
+		&                                                &                & \multicolumn{4}{l|}{Time measurement (h)}     \\ \cline{2-7} 
+		\multicolumn{1}{l|}{}                                                                                                    & \multicolumn{2}{l|}{Fitness function}                           & Average            & Best   & Median & Worst  \\ \hline
+		\multicolumn{1}{|l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Pittsburgh:\\ Individual eq. set of rules\end{tabular}}} & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 18.371 $\pm$ 7.178 & 8.545  & 17.366 & 31.366 \\ \cline{2-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 14.424 $\pm$ 2.938 & 7.016 & 14.352  & 17.43 \\ \cline{3-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5\textbf{$*$} & 11.934 $\pm$ 2.22 & 8.267  & 11.609  & 16.166 \\ \cline{3-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 13.176 $\pm$ 1.923 & 9.283 & 13.424 & 16.517 \\ \hline
+		\multicolumn{1}{|l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Michigan:\\ Individual eq. one rule\end{tabular}}}       & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 10.627 $\pm$ 0.187 & 10.307 & 10.64  & 10.956 \\ \cline{2-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0\textbf{$*$}   & 9.342 $\pm$ 0.3    & 8.993  & 9.261  & 9.854  \\ \cline{3-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 9.435 $\pm$ 0.348  & 9.039  & 9.401  & 10.281 \\ \cline{3-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 9.612 $\pm$ 0.508  & 8.946  & 9.509  & 10.38  \\ \hline
+	\end{tabular}
+}
+	\label{tab:PvsMtime}
+\end{table*}
+
+In this table we see that best times are obtained when $f_{CS}$ is used. More precisely, in the Pittsburgh approach, the distributions follow the normal and after performing the ANOVA test, we can say that the shorter execution time (the best) is found for $\alpha$ = 0.5 with statistical significance (p-value of 0.008623). In the case of the Michigan approach, we again find statistical differences (p-value of 5.537e-05) between the results, and thus we can say that the best execution time is obtained when we use $f_{CS}$ with an $\alpha$ value of 0. It seems that the time does decrease when $\alpha$ is different than 0, meaning that the depth of the tree is taken into account during the evaluation of the fitness. To study this effect, we have to look at the sizes of the best individuals obtained for each configuration, which are displayed in Table \ref{tab:PvsMsize}.
+
+\begin{table*}
+	\centering
+	\caption{Size of the best individuals for the Pittsburgh approach, where the size is the size of the tree. In the Michigan approach, the size is the length of the list -- number of conditions in the rule -- and always equal to 10. An \textbf{$*$} indicates the  statistically significant best value for $\alpha$.}
+	\resizebox{10.5cm}{!}{
+	\begin{tabular}{lll|l|l|l|l|}
+		\cline{4-7}
+		&                                                &                & \multicolumn{4}{l|}{Best individual size}     \\ \cline{2-7} 
+		\multicolumn{1}{l|}{}                                                                                                    & \multicolumn{2}{l|}{Fitness function}                           & Average            & Best   & Median & Worst  \\ \hline
+		\multicolumn{1}{|l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Pittsburgh:\\ Individual eq. set of rules\end{tabular}}} & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 60.2 $\pm$ 10.922 & 47 & 60 & 79 \\ \cline{2-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 60 $\pm$ 11.086 & 43 & 60 & 83 \\ \cline{3-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 40 $\pm$ 4.447 & 35 & 40  & 47 \\ \cline{3-7} 
+		\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 1\textbf{$*$}   & 36.2 $\pm$ 3.011 & 31 & 37 & 39 \\ \hline
+	\end{tabular}
+	}
+	\label{tab:PvsMsize}
+\end{table*}
+
+In this table we only show the results for the Pittsburgh approach, given that the sizes of the trees do change in GP, but the size of a list -- number of conditions in the rule -- does not, and in this case is always 10. Certainly, the size of the trees diminishes when the value of $\alpha$ grows. Since the distributions do not follow the normal, a non-parametric test (Kruskal-Wallis) has been used to asset the statistical significance [\cite{DerracTests11}], obtaining a p-value of 1.679e-10. Then, the smaller individual is found for $f_{CS}$, and $\alpha$ = 1.
+
+% Esta se deja comentada por si piden mÃ¡s resultados
+
+%\begin{table*}
+%\centering
+%\begin{tabular}{lll|l|l|l|l|}
+%\cline{4-7}
+%                                                                                                                         &                                                &                & \multicolumn{4}{l|}{Time measurement (h)}     \\ \cline{2-7} 
+%\multicolumn{1}{l|}{}                                                                                                    & \multicolumn{2}{l|}{Fitness function}                           & Average            & Best   & Median & Worst  \\ \hline
+%\multicolumn{1}{|l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Pittsburgh:\\ Individual eq. set of rules\end{tabular}}} & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 18.371 $\pm$ 7.178 & 8.545  & 17.366 & 31.366 \\ \cline{2-7} 
+%\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 14.424 $\pm$ 2.938 & 7.016 & 14.352  & 17.43 \\ \cline{3-7} 
+%\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 11.934 $\pm$ 2.22 & 8.267  & 11.609  & 16.166 \\ \cline{3-7} 
+%\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 13.176 $\pm$ 1.923 & 9.283 & 13.424 & 16.517 \\ \cline{3-7}
+%\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{} & $\alpha$ = 500   & 3.653 $\pm$ 0.36 & 3.239 & 3.576 & 4.436 \\ \cline{3-7}
+%\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{} & $\alpha$ = 1000   & 3.256 $\pm$ 0.229 & 2.922 & 3.284  & 3.624 \\ \hline
+%\multicolumn{1}{|l|}{\multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}Michigan:\\ Individual eq. one rule\end{tabular}}}       & \multicolumn{2}{l|}{$f_{Acc}$}                                  & 10.627 $\pm$ 0.187 & 10.307 & 10.64  & 10.956 \\ \cline{2-7} 
+%\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{\multirow{3}{*}{$f_{CS}$}} & $\alpha$ = 0   & 9.342 $\pm$ 0.3    & 8.993  & 9.261  & 9.854  \\ \cline{3-7} 
+%\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 0.5 & 9.435 $\pm$ 0.348  & 9.039  & 9.401  & 10.281 \\ \cline{3-7} 
+%\multicolumn{1}{|l|}{}                                                                                                   & \multicolumn{1}{l|}{}                          & $\alpha$ = 1   & 9.612 $\pm$ 0.508  & 8.946  & 9.509  & 10.38  \\ \hline
+%\end{tabular}
+%\caption{Comparison between Pittsburgh and Michigan
+%  approaches, in terms of their execution time. For the Michigan approach, times for executing the algorithm once for the GRANTED class and another for the STRONGDENY are presented together. An $*$ indicates the  statistically significant best value for $\alpha$.}
+%\label{tab:PvsMtime}
+%\end{table*}
+
+\subsubsection{Examples of the best obtained individuals}
+\label{subsec:examples}
+
+What we also have to determine is which kind of presented solution is better: showing the CSO a set of rules or a single rule for each class. As already discussed in Section \ref{sec:methodology}, each one has their advantages and disadvantages, but now we directly compare some of the best individuals obtained for both implementations, proving their readability and usefulness for the CSOs. In addition, we present the relation between the obtained solutions and the original rules that allowed to classify the dataset we have been working with.
+
+As we have executed the experiments performing a 10-fold cross-validation, in order to study the best individuals for each configuration we need to consider the values of the validation accuracies per fold, and then choose the best one. In Figure \ref{fig:bestInd_fCS_a0} we show an example of best individual, in this case obtained when using $f_{CS}$ as the fitness function with an $\alpha$ value of 0. The tree in this figure represents a set of 16 rules, two of them classifying to the STRONGDENY class, whilst the rest classify towards the GRANTED class. The ones that classify to STRONGDENY have been highlighted and presented in string form in the figure.
+
+\begin{figure*}[h!tb]
+	\centering
+	\includegraphics[width=\textwidth]{img/Fig4.eps}
+	\caption{An example of best individual obtained when using
+          $f_{CS}$ as the fitness function with an $\alpha$ value of
+          0. This tree represents a set of 16 rules, two of them
+          classifying to the STRONGDENY class, whilst the rest
+          classify towards the GRANTED class.} 
+	\label{fig:bestInd_fCS_a0}
+\end{figure*}
+
+The STRONGDENY rules in Figure \ref{fig:bestInd_fCS_a0} imply that the developers are more probably to get a GRANTED in their actions, and this conclusion makes sense because because they are supposed to be more familiar with system security. Also, from the second rule we can infer that the complex events -- not simple -- and the devices owned by the users and not the company may be dangerous. The root condition, which appears in every rule and therefore means is very important, is related to the time that the the device takes to enter into sleep mode (screen turns off). This kind of information can be used by the CSOs to develop new security rules for the system.
+
+In general, what we have seen in the individuals obtained by the
+Pittsburgh approach is that most of the rules in the set classify for
+the GRANTED class, and less than 13\% are classifying for the
+STRONGDENY class. Again, the effect of the imbalance in the dataset is
+present. Actually, in some cases the set of rules only classify to
+GRANTED, and this can be seen as a ``whitelist'', meaning that
+everything that is not specify by these rules will be automatically
+denied.
