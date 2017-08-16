@@ -13,8 +13,161 @@
 
 \section{Use case identification}
 
+The CSPs usually include policies that allow or deny access to non-confident (or non-certified) web sites. Moreover, several web pages might be also controlled for productivity or suitability reasons. Thus, some of the CSPs usually define sets of allowed or denied pages/sites that could be accessed by the enterprise users/employees. These sets are usually included in a White (permitted) or Black (non-permitted) Lists. These lists act as a good control tool for those URLs included in them of for the complementary, i.e. the URLs not included in a Whitelist have automatically denial of access, for instance.
+
+The aim is going a step beyond, trying to define a tool for automatically making an allowance or denial decision with respect to URLs that are not included in the aforementioned lists. This decision would be based in the one made for similar URL accesses (those with similar features).
+
+Thus, the problem has been transformed into a \textit{classification} one, in which we have started from a set of unlabelled patterns, that model the connection properties from a huge amount of \textit{real}\footnote{Taken from a log file given by a volunteer Spanish company.} URL accesses (known as sessions). Then we have assigned a label to many of them, considering a set of \textit{real}\footnote{The set of rules has been written by the same company, with respect to its employees.} security rules (CSPs) defined by the Chief Security Officer (CSO) in the company.
+The resulting dataset has been processed by means of different classification methods, in order to find the best algorithm for dealing with these data.
+Previously, data balancing techniques were applied, namely \textit{undersampling} and \textit{oversampling} \cite{imbalance_techniques_02}, due to the high imbalance present in the dataset, given that more than two thirds of the patterns belonged to the majority class.
+
+The problem to solve is related with the application of corporate security policies in order to deal with potential URL accesses inside an enterprise. To this end a dataset of URL sessions (requests and accesses) is analysed. These data are labelled with the corresponding permission or not for that access following the aforementioned rules. The problem is then transformed into a classification one, in which every new URL request will be classified, and thus, a grant or deny action will be assigned to that pattern.
+
+The analysed data come from an \texttt{access.log} of the Squid proxy application \cite{squid:site}, in a real Spanish company. This open source tool works as a proxy, but with the advantage of storing a cache of recent transactions so future requests may be answered without asking the origin server again \cite{DuaneWessels2004}. Every pattern, namely a URL session has ten variables associated, which we describe in Table \ref{tabdata}, indicating if the variable is numeric or nominal/categorical.
+
+\begin{table*}[htpb]
+\centering
+ \caption{\label{tabdata} Independent Variables corresponding to a URL session (a connection to a URL for some time). The URLs are parsed as detailed in Section \ref{sec:dataid}.}
+{\scriptsize
+\begin{tabular}{llll}
+\hline\noalign{\smallskip}
+Variable name & Description & Type & Rank/Number of Values (if categorical)\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+\texttt{http\_reply\_code} & Status of the server response & Categorical & 20 values\\
+\texttt{http\_method} & Desired action to be performed & Categorical & 6 values\\
+\texttt{duration\_milliseconds} & Session duration & Numerical & integer in [0,357170]\\
+\texttt{content\_type} & Media type of the entity-body sent to the recipient & Categorical & 11 values (main content), 85 values (whole content)\\
+\texttt{server\_or\_cache\_address} & IP address & Categorical & 2343 values\\
+\texttt{time} & connection hour (in the day) & Date & 00:00:00 to 23:59:59\\
+\texttt{squid\_hierarchy} & It indicates how the next-hop cache was selected & Categorical & 3 values\\
+\texttt{bytes} & Number of transferred bytes during the session & Numerical & integer in [0,85135242]\\
+\texttt{client\_address} & IP address & Categorical & 105 values\\
+\texttt{URL} & Core domain of the URL, not taking into account the TLD & Categorical & 976 values\\
+%\noalign{\smallskip} \hline\noalign{\smallskip}
+%Non-financial Variables (used in GP) & Description & Type\\
+%\noalign{\smallskip}\hline\noalign{\smallskip}
+%$x_0$, $x_1$, $x_2$ & Size & Small/Medium/Large& Categorical\\
+\noalign{\smallskip}\hline
+\end{tabular}
+}
+\end{table*}
+
+The dependent variable or class is a label which inherently assigns an decision (and so the following action) to every request. This can be: \textit{ALLOW} if the access is permitted according to the CSPs, or can be \textit{DENY}, if the connection is not permitted. These patterns are labelled using an `engine' based in a set of security rules, that specify the decision to make.
+
+These data were gathered along a period of two hours, from 8.30 to 10.30 am (30 minutes after the work started), monitoring the activity of all the employees in a medium-size Spanish company (80-100 people), being 100000 patterns. The results derived from the experiments show that this quantity of data might be big enough, but a more accurate outcome would be given with, for instance, a 24 hours long log.
 
 \section{Data identification}
+\label{sec:dataid}
+
+Before classification techniques are applied, a data preprocessing step has been performed. First, the raw dataset is labelled according a set of \textit{initial corporate security rules}, i.e. every pattern is assigned to a label indication if the corresponding URL request/access would be ALLOWED or DENIED considering these rules. This step is necessary in order to transform the problem into a classification one. However, in order to apply the rules they must be transformed from their initial format into another one that can be applied in our programs (a hash in Perl\footnote{A \textit{hash} in Perl is an object that represents a \textit{hash table}, which is a set of pairs key-value. Sometimes, the value can be another hash itself.}). This is described in Subsection \ref{subsec:ruleparsing}. 
+
+Subsection \ref{subsec:logparsing} details how the patterns of the navigation data log (URL sessions) are also converted to a Perl hash to perform the matting/labelling process. 
+
+At the end of these two steps, the two hashes are compared in order to obtain which entries of the log should be ALLOW or DENY, know as the \textit{labelling} step. This is similar to perform a decision process in a security system. This step results in that there are 38972 pattern belonging to class ALLOW (positive class) and 18530
+of class DENY (negative class), so just a 67.78\% of the samples
+belong to the majority class. This represents a very important problem, since a classifier that is trained considering these proportions is supposed to classify all the samples as ALLOW, getting a theoretically
+quite good classification accuracy equal or greater than 68\%. However, in section \ref{sec:results} we will see that, despite the fact that some denied patterns are classified as allow, the overall performance of the classifiers are better than the expected.% Eso
+                                % no es bueno. Es una mierda - JJ
+Given that the dataset contains a majority of categorical/nominal data, we have performed different approaches for data balancing:
+\begin{itemize}
+\item Undersampling: we will remove random samples of the majority class until the amount in both classes are similar.
+\item Oversampling: we will duplicate random samples of the minority class, in order to get a close number of patterns in both classes. This has be done due to the impossibility of creating synthetic data when dealing with categorical values (there is not a proper distance measure between two values in a category). Actually, since the number of samples in the majority class is almost twice the minority one, we have just duplicated all of those belonging to the minority class.
+\end{itemize}
+
+Finally, in Subsection \ref{subsec:methods} we explain the selection of the methods to apply in order to classify the data. We just have considered the patterns correctly labelled in the preprocessing phase. Thus, a supervised classification process \cite{classification_67} has been conducted on the balanced datasets.
+Weka Data Mining Software\footnote{http://www.cs.waikato.ac.nz/ml/weka/} has been used, in order to select the best set of methods in order to deal with these data. These classifiers will be further tested in Section \ref{sec:results}.
+
+% ------------------------------------------------------------------
+%
+\subsection{Security rules parsing}
+\label{subsec:ruleparsing}
+
+\noindent In this work we have considered Drools \cite{drools:site}
+as % otra cosa que debería estar en el estado del arte.  - JJ
+the tool to create and therefore manage rules in a business environment. This so called Business Rule Management System (BRMS) has been developed by the JBoss community under an Apache License and it is written in Java. Though this platform consist of many components, here we focus on Drools Expert and the Drools Rule Language (DRL, \cite{drools:doc}). Then, the defined rules for a certain company are inside of a file with a \texttt{.drl} extension, the file that needs to be parsed to obtain the final set of rules. In Figure \ref{fig:drools_hash}, (a), there is the typical rule syntax in DRL. Two main things should be obtained from the parsing method: both left and right sides of the rule, taking into account that the left side is where the company specifies the conditions required to apply the action indicated in the right side. Also, for describing the conditions, Squid syntax is used (see Section \ref{sec:problemDescription}), having thus the following structure: \texttt{squid:Squid(\textit{conditions})}. Finally, from the right side of the rule, the \textit{ALLOW} or \textit{DENY} label to apply on the data that matches with the conditions, will be extracted. The Perl parser that we have implemented applies two regular expressions, one for each side of the rule, and returns a hash with all the rules with the conditions and actions defined. The `before and after' performing the parsing over the \texttt{.drl} file is in Figure \ref{fig:drools_hash}.
+
+\begin{figure}[htb]
+\centering
+\subfloat[Drools Rule]{
+\begin{tabular}{ p{0.05cm} p{0.05cm} p{2.5cm} }
+  \texttt{rule~"name"} & & \\
+   & \texttt{attributes} & \\
+   & \texttt{when} & \\
+   & & \texttt{/* Left Side of the Rule */} \\
+   & \texttt{then} & \\
+   & & \texttt{/* Right Side of the Rule */} \\
+  \texttt{end} & & \\
+\end{tabular}
+}
+~
+\subfloat[Hash Rule]{
+\begin{tabular}{ p{0.05cm} p{0.05cm} p{2.5cm} }
+  \texttt{\%rules~=~(} & & \\
+   & \texttt{rule~=>\{} & \\
+   & & \texttt{field => xxx} \\
+   & & \texttt{relation => xxx} \\
+   & & \texttt{value => xxx} \\
+   & & \texttt{action => [allow, deny]} \\
+   & \texttt{\},} & \\
+  \texttt{);} & & \\
+\end{tabular}
+}
+\caption{(a) Structure of a rule in Drools Expert. (b) Resulting rule, after the parsing, in a global hash of rules. \label{fig:drools_hash}}
+\end{figure}
+
+% ------------------------------------------------------------------
+%
+\subsection{URL log data parsing}
+\label{subsec:logparsing}
+
+\noindent Usually, the instances of a log file have a number of fields, in order to have a registration of the client who asks for a resource, the time of the day when the request is made, and so on. In this case, we have worked with an \textit{access.log} (see Section \ref{sec:problemDescription}) file, converted into a CSV format file so it could be parsed and transformed in another hash of data. All ten fields of the Squid log yield a hash like the one depicted in Figure \ref{fig:data_hash}.
+
+Once the two hashes of data were created, they were compared in such a way that for each rule in the hash of rules, it was determined how many entries in the data log hash are covered by the rule, and so they were applied the label that appears as `action' in the rule.
+
+One of the problems was to extract from a whole URL the part that was
+more interesting for our purposes. It is important to point out that
+in a log with thousands of entries, an enormous variety of URLs can be
+found, since some can belong to advertisements, images, videos, or
+even some others does not have a domain name but are given directly by
+an IP address. For this reason, we have taken into account that for a
+domain name, many subdomains (separated by dots) could be considered,
+and their hierarchy grows from the right towards the left. The highest
+level of the domain name space is the Top-Level Domain (TLD) at the
+right-most part of the domain name, divided itself in country code
+TLDs and generic TLDs. Then, a domain and a number of subdomains
+follow the TLD (again, from right to left). This way, the URLs in the
+used log are such as \textit{http://subdomain...subdomain.domain.TLD/}
+\textit{other\_subdirectories}. However, for the ARFF\footnote{Format
+  of Weka files} file to be created, only the domain (without the
+subdomains and the TLD) should be considered, because there are too
+many different URLs to take into consideration. Hence, applying
+another regular expression, the data parser implemented in Perl
+obtains all the core domains of the URLs, which makes 976 domains in
+total. % primero: deberíais usar domain + TLD. Perl.com no es lo mismo
+       % que perl.org. Segundo: deberíais de justificar esto un poco
+       % más. Pensaba que usábais algo más avanzado para clasificar el
+       % sitio, directorios o algo... - JJ
+
+\begin{figure}[htb]
+\centering
+\caption{Perl hash with an example entry. The actual hash used for this work has a total of 100000 entries, with more than a half labelled as \textit{ALLOW} or \textit{DENY} after the comparing process. \label{fig:data_hash}}
+\begin{tabular}{ p{0.1cm} p{0.1cm} p{6cm} }
+  \texttt{\%logdata~=~(} & & \\
+   & \texttt{entry~=>\{} & \\
+   & & \texttt{http\_reply\_code => xxx} \\
+   & & \texttt{http\_method => xxx} \\
+   & & \texttt{duration\_miliseconds => xxx} \\
+   & & \texttt{content\_type => xxx} \\
+   & & \texttt{server\_or\_cache\_address => xxx} \\
+   & & \texttt{time => xxx} \\
+   & & \texttt{squid\_hierarchy => xxx} \\
+   & & \texttt{bytes => xxx} \\
+   & & \texttt{url => xxx} \\
+   & & \texttt{client\_address => xxx} \\
+   & \texttt{\},} & \\
+  \texttt{);} & & \\
+\end{tabular}
+\end{figure}
 
 
 \section{Analysis}
@@ -24,3 +177,112 @@
 
 
 \section{Applying the most suitable soft computing techniques}
+
+Several experiments have been conducted, once a subset of classification methods has been chosen in previous section.
+To this end, some training and test datasets have been created from the set of labelled patterns. It contains 57502 samples, with 38972 belonging to class ALLOW and 18530 to class DENY.
+
+In order to better test the methods, two different divisions (training-test) have been done, namely 90\%-10\% and 80\%-20\%. Moreover, two additional splits have been considered in every case, using both a random and a sequential approach for selecting samples from the original file. Thus, in the latter, consecutive patterns have been included in the training file up to the desired percentage. The rest have composed the test file. In the first approach, a random selection is performed.
+
+The aim of the sequential division is to compare if the online activity of the employees considering URL sessions could be somehow `predicted', just using data from previous minutes or hours.
+
+With respect to the data, the initial file was unbalanced, as it can be seen in the number of patterns per class. Hence, as stated in Section \ref{sec:problemDescription}, two data balancing methods have been applied to all the files, to get similar numbers in both classes: undersampling (random removal of ALLOW patterns) and oversampling (duplication of DENY patterns).
+
+Results for unbalanced data are presented in Table \ref{tabresults_nobalan}.
+Three different tests have been done for the random pattern distribution approach, so the mean and standard deviation are shown in the corresponding columns.
+
+\begin{table*}[htpb]
+\centering
+ \caption{\label{tabresults_nobalan} Percentage of correctly classified patterns for non-balanced data}
+{\small
+\begin{tabular}{|l|l|l|l|l|}
+\cline{2-5}
+\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{80\% Training - 20\% Test} & \multicolumn{2}{c|}{90\% Training - 10\% Test} \\ 
+\cline{2-5}
+\multicolumn{1}{l|}{} & Random (mean) & Sequential & Random (mean) & Sequential \\ 
+\hline
+J48 & 97.56 $\pm$ 0.20 & 88.48 & 97.70 $\pm$ 0.15 & 82.28 \\ 
+\cline{1-1}
+Random Forest & 97.68 $\pm$ 0.20 & 89.77 & 97.63 $\pm$ 0.13 & 82.59 \\ 
+\cline{1-1}
+REP Tree & 97.47 $\pm$ 0.11 & 88.34 & 97.57 $\pm$ 0.01 & 83.20 \\ 
+\cline{1-1}
+NNge & 97.23 $\pm$ 0.10 & 84.41 & 97.38 $\pm$ 0.36 & 80.34 \\ 
+\cline{1-1}
+PART & 97.06 $\pm$ 0.19 & 89.11 & 97.40 $\pm$ 0.16 & 84.17 \\ 
+\hline
+\end{tabular}
+}
+\end{table*}
+% primero: ¿las diferencias son significativas? No lo
+% parecen. Segundo: ¿habéis incluido algún método "baseline" para
+% comparación, como NaiveBayes, que es el que se incluye siempre? - JJ 
+As it can be seen, all the five methods achieved a high performance classifying in the right way the test dataset. Also, these results are not like this by chance, as shown by a low standard deviation. Although it was expected that the results from the 90\%-10\% division were slightly better, in the future a more agressive division will be executed so the methods can be really proved with much less training data.
+
+What matters to the results of the experiments made with the sequential data, they are worse than the obtained from the random data, but still they are good ($>$ 85\%). This is due to the occurrence of new patterns from a certain time (maybe there are some requests that are made just at one specific time in a day, or in settled days), and then there is no sufficient similarity between the training data and the classifying of the test data set may fail. The loss of 5 to 6 points in the results of the 90\%-10\% division is the first unexpected or unlogicall result of the experiments, but they also reinforce the previous theory.
+
+The technique that lightly stands out over the others is
+\textit{Random Forest}, being the best in almost every case, even in
+the experiments with the most complex sequential divisions. However,
+if we focus on the standard deviation, \textit{REP Tree} is the chosen
+one, as its results present robustness. % yo no estaría tan
+                                % seguro. Tenéis que hacer tests
+                                % estadísticos. En serio que parecen
+                                % exactamente los mismos
+                                % resultados. ¿Son métodos
+                                % deterministas? En todo caso, la
+                                % diferencia es mínima, de 5 o 6
+                                % dominios URLs, ¿no? - JJ
+
+For its part, results obtained from unbalanced data are shown in Table \ref{tabresults_balan}. Again the corresponding to the random partitions come from the mean of three blocks of experiments, and so are specified the standard deviations. The Table illustrates two segments of results, obtained from the undersampled data and from the oversampled data. For each one, the 90\%-10\% and 80\%-20\% divisions were also made.
+
+% ***
+% Se puede ver que todos los métodos obtienen un rendimiento similar en aciertos, siendo éste bastante alto. Si se mira la desviación estándard se ve que los resultados no son fortuitos, ya que ésta es muy pequeña.
+% 
+% Como era de esperar la división en 90\%-10\% mejora los resultados, aunque no mucho, por lo que habría que hacer una prueba con una división más agresiva (trabajo futuro) para saber las capacidades de los métodos al trabajar con pocos datos de entrenamiento.
+% 
+% Respecto a los datos secuenciales sus resultados son peores, pero aún así bastante buenos (> 85\%).
+% La bajada en aciertos se debe sin duda a la aparición de patrones totalmente nuevos a partir de determinada hora (puede que algo que se haga de forma programada cada día o determinados días), por lo que no hay patrones similares con los que entrenar y se falla al clasificar en el test.
+% 
+% Los aciertos son incluso menores (hay una bajada de 5-6 puntos) al hacer una división considerando más patrones, contrariamente a lo esperado/logico, por lo que esto refuerza la teoría de patrones que sólo suceden a determinadas horas.
+% 
+% Como técnica destaca levemente \textit{Random Forest}, siendo la que mejores resultados obtiene en casi todos los casos, incluyendo las más complejas particiones secuenciales. Aunque mirando la desviación estándar nos decantamos por \textit{REP Tree}, que obtiene resultados más robustos.
+% ***
+% 
+% ***
+% Los resultados de los datos balanceados se muestran en la Tabla \ref{tabresults_balan}. Nuevamente los resultados de las particiones aleatorias se muestran en media de tres particiones.
+% ***
+
+\begin{table*}[htpb]
+\centering
+ \caption{\label{tabresults_balan} Percentage of correctly classified patterns for balanced data (under- and oversampling)}
+{\small
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\cline{2-9}
+\multicolumn{1}{l|}{} & \multicolumn{4}{c|}{80\% Training - 20\% Test} & \multicolumn{4}{c|}{90\% Training - 10\% Test} \\ 
+\cline{2-9}
+\multicolumn{1}{l|}{} & \multicolumn{2}{c|}{Undersampling} & \multicolumn{2}{c|}{Oversampling} & \multicolumn{2}{c|}{Undersampling} & \multicolumn{2}{c|}{Oversampling} \\ 
+\cline{2-9}
+\multicolumn{1}{l|}{} & Rand (mean) & Sequential & Rand (mean) & Sequential & Rand (mean) & Sequential & Rand (mean) & Sequential \\ 
+\hline
+J48 & 97.05 $\pm$ 0.25 & 84.29 & 97.40 $\pm$ 0.03 & 85.66 & 96.85 $\pm$ 0.35 & 76.44 & 97.37 $\pm$ 0.06 & 74.24 \\ 
+\cline{1-1}
+Random Forest & 96.61 $\pm$ 0.17 & 88.59 & 97.16 $\pm$ 0.19 & 89.03 & 96.99 $\pm$ 0.13 & 79.98 & 97.25 $\pm$ 0.33 & 81.33 \\ 
+\cline{1-1}
+REP Tree & 96.52 $\pm$ 0.13 & 85.54 & 97.13 $\pm$ 0.25 & 85.41 & 96.55 $\pm$ 0.10 & 77.65 & 97.14 $\pm$ 0.09 & 76.81 \\ 
+\cline{1-1}
+NNge & 96.56 $\pm$ 0.42 & 85.28 & 96.90 $\pm$ 0.28 & 83.46 & 96.33 $\pm$ 0.05 & 81.93 & 96.91 $\pm$ 0.06 & 78.73 \\ 
+\cline{1-1}
+PART & 96.19 $\pm$ 0.14 & 85.16 & 96.82 $\pm$ 0.09 & 84.50 & 96.09 $\pm$ 0.10 & 79.70 & 96.68 $\pm$ 0.11 & 78.16 \\ 
+\hline
+\end{tabular}
+}
+\end{table*}
+
+\begin{description}
+  \item[Applying Undersampling] In comparison with those results from Table \ref{tabresults_nobalan}, these go down one point (in the case of randomly made divisions) to six points (sequential divisions). The reason why this happens is that when randomly removing ALLOW patterns, we are really losing information, i. e. key patterns that could be decisive in a good classification of a certain set of test patterns. 
+  \item[Applying Oversampling] Here we have duplicated the DENY patterns so their number could be up to that of the ALLOW patterns. However, it does not work as well as in other approaches which uses numerical computations for creating the new patterns to include in the minority class. Consequently, the results have been decreased.
+\end{description}
+
+In both cases is noticeable that taking the data in a sequential way, instead of randomly, lower the results. It is clear that due to the fact that performing undersampling some patterns are lost while in the case of oversampling they all remain, \textit{undersampling results} are better. Then, in this case the algorithm with best performance is \textit{J48}, though \textit{Random Forest} follows its results very closely in random datasets processing, and \textit{REP Tree}, which is better than the rest when working with sequential data. Nevertheless, generally speaking and given the aforementioned reasons, performing data balancing methods yields worse results.
+
+Furthermore, we have found that for the data sets taken consecutively, the methods always classify worse the DENY labels, as they label them as ALLOW patterns. This is worth further study because it is the worst situation. It would be preferable a false positive in a DENY pattern, rather than a false negative and to permit a request that is forbidden in the ISP.
