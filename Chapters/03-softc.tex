@@ -13,11 +13,23 @@
 
 Therefore, in this chapter we will look over the techniques that take part in the process, from selecting the data in the database to actually obtaining the set of rules and visualise them, via data preprocessing and transformation. Furthermore, the soft computing techniques that have been applied in research for the problem of classification -- extraction of rules -- and visualisation are also detailed.
 
-It is important to note that this process, known as ``Knowledge Discovery in Databases'' (KDD) is not the proposed methodology itself, but part of it. These are the necessary steps and methods to obtain the rules, but the proposed algorithms can be used or not depending on the use case, which will be defined later.
+It is important to note that this process, known as ``Knowledge Discovery in Databases'' is not the proposed methodology itself, but part of it. These are the necessary steps and methods to obtain the rules, but the proposed algorithms can be used or not depending on the use case, which will be defined later.
 
 \section{The Knowledge Discovery in Databases process}
 
-\cite{fayyad1996data}
+The process of discovering new -- previously unknown or non trivial -- relationships between the instances of the data, being these the observations of the use case in certain environments, has been named ``Knowledge Discovery in Databases'' or KDD \cite{fayyad1996data}. Every step of the process is described in \cite{fayyad1996data}, where the authors also remark that the Data Mining procedure is part of KDD. This is because even though DM is the most famous and indeed is a very importante step, the rest are equally important and sometimes more, because without a proper preprocessing or interpretation of the results, DM could lead to misunderstandings.
+
+This way, the steps detailed in \cite{fayyad1996data} are the following:
+
+\begin{enumerate}
+	\item Identifying the desired outcome or use of the process by the final user.
+	\item Obtaining the set of data to explore.
+	\item Cleaning and preprocessing of the data.
+	\item Transforming the data in order to obtain new attributes of the observations or reduce them.
+	\item Identifying the methods to use according to what has been defined in step 1.
+	\item Applying the methods.
+	\item Presenting the results in a suitable way for the final user.
+\end{enumerate}
 
 \section{Data selection}
 
