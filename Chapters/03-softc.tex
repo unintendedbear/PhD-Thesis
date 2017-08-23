@@ -37,9 +37,18 @@ In the succeeding sections, we will describe the most used techniques for every 
 
 When we talk about selecting the target data, we refer to choosing the set of data to which we want to apply the different, either if is the whole set of observations or a subset of it. The reasons for using all the data at hand or just a portion will entirely depend on the aim of the use case, and whether we want to generaly discover new relationships between the observations or just to study a particular group or time of day. For this reason, there is not a particular technique that can be used in this step, as it consists of gathering the data from the source of the observations.
 
-Therefore, this is a matter of properly designing the database, and it is more important to do so for scalability reasons, when the number of observations that will be stored tends to be called as ``Big Data'' \cite{begoli2012design, wu2014data}.
+Therefore, this is a matter of properly designing the database, and it is more important to do so for scalability reasons, when the number of observations that will be stored tend to be treated the same way as ``Big Data'' \cite{begoli2012design, wu2014data}.
 
 \section{Data preprocessing}
+
+The preprocessing of the data includes the treatment of some of the values, the cleaning of the database, and the application of balancing techniques.
+
+On the one hand, the data might not be directly stored in the way that it is needed for the knowledge discovery. This means that either the information is in log files from what the observations have to be extracted and stored in a database, or even if the data is already in a database, the attributes related with the observation might be distributed along many different tables. Then, this preprocessing and actual making of the dataset is an adaptable task, because it can be done with any chosen tool. However, this is a process that can be avoided with a careful definition of the values of interest and the structure of the database that will store them.
+
+On the other hand, the observation of the real world can lead to missing or repeated values due to failing sensors or the communication with them. This is why it is important to perform a database cleaning. The work discussed in \cite{wilson2001maintaining} presents an exhaustive review of works which study database cleaning and their conclusion is that a database with good quality is decisive when trying to obtain good accuracies when classifying new observations; a fact which was also demonstrated in \cite{zeineb2014thesis}. This means that the model that will be built in the data mining step will be more helpful, and more knowledge can be extracted, when the database is well maintained.
+
+Many cleaning techniques have been proposed in literature \cite{wilson2001maintaining} in order to guarantee the good quality of
+a given dataset.   Most of these techniques are based on updating a database by adding or deleting instances to optimize and reduce the initial database. These policies include different operations such as deleting the outdated, redundant, or inconsistent instances; merging groups of objects to eliminate redundancy and improve reasoning power; re-describe objects to repair incoherencies; check for signs of corruption in the database and controlling any abnormalities in the database which might signal a problem. Working with a database which is not cleaned can become sluggish and without accurate data users will make uninformed decisions.
 
 \section{Data transformation}
 
