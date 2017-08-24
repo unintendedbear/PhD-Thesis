@@ -43,7 +43,7 @@ Therefore, this is a matter of properly designing the database, and it is more i
 
 The preprocessing of the data includes the treatment of some of the values, the cleaning of the database, and the application of balancing techniques.
 
-On the one hand, the data might not be directly stored in the way that it is needed for the knowledge discovery. This means that either the information is in log files from what the observations have to be extracted and stored in a database, or even if the data is already in a database, the attributes related with the observation might be distributed along many different tables. What is more, the assignation of a \textit{class}, i.e. a label which describes the group to which an observation belongs, can be made manually or by performing techniques such as clustering \cite{witten2016data}. Then, this preprocessing and actual making of the dataset is an adaptable task, because it can be done with any chosen tool. However, this is a process that can be avoided with a careful definition of the values of interest and the structure of the database that will store them.
+On the one hand, the data might not be directly stored in the way that it is needed for the knowledge discovery. This means that either the information is in log files from what the observations have to be extracted and stored in a database, or even if the data is already in a database, the attributes related with the observation might be distributed along many different tables. What is more, the assignation of a \textit{class}, i.e. a label which describes the group to which an observation belongs, can be made manually or by performing techniques such as clustering \cite{witten2016data}. In addition, new attributes can be added to the observation by processing the ones obtained directly from the sensor, and this way we add information that might be helpful. Then, this preprocessing and actual making of the dataset is an adaptable task, because it can be done with any chosen tool. However, this is a process that can be avoided with a careful definition of the values of interest and the structure of the database that will store them.
 
 On the other hand, the observation of the real world can lead to missing or repeated values due to failing sensors or the communication with them. This is why it is important to perform a database cleaning. The work discussed in \cite{wilson2001maintaining} presents an exhaustive review of works which study database cleaning and their conclusion is that a database with good quality is decisive when trying to obtain good accuracies when classifying new observations; a fact which was also demonstrated in \cite{zeineb2014thesis}. This means that the model that will be built in the data mining step will be more helpful, and more knowledge can be extracted, when the database is well maintained.
 
@@ -53,18 +53,20 @@ a given dataset. Most of these techniques are based on updating a database by ad
 Lastly, it is also usual to have an unequal number of observations in every class or group. This is called ``data imbalance'' \cite{imbalanced_data_05}. In order to deal with this problem there exist several methods in the literature, but all of them are mainly grouped in three techniques \cite{imbalance_techniques_02}: 
 
 \begin{itemize}
-\item \textit{Undersampling the over-sized classes}: i.e. reduce the considered number of patterns for the classes with the majority.
-\item \textit{Oversampling the small classes}: i.e. introduce additional -- normally synthetic -- patterns in the classes with the minority.
+\item \textit{Undersampling the majority classes}: i.e. reduce the considered number of patterns for the classes with the majority.
+\item \textit{Oversampling the minority classes}: i.e. introduce additional -- normally synthetic -- patterns in the classes with the minority.
 \item \textit{Modifying the cost associated to misclassifying the positive and the negative class} to compensate for the imbalance ratio of the two classes. For example, if the imbalance ratio is 1:10 in favour of the negative class, the penalty of misclassifying a positive example should be 10 times greater.
 \end{itemize}
 
 The first option has been applied in some works, following a random undersampling approach \cite{random_undersampling_08}, but it has the problem of the loss of valuable information. 
 % dónde está la primera hand? - JJ
-The second has been so far the most widely used, following different approaches, such as SMOTE (Synthetic Minority Oversampling Technique) \cite{smote_02}, a method proposed by Chawla et al. for creating `artificial' samples for the minority class, in order to balance the amount of them with respect. However this technique is based in numerical computations, which consider different distance measures, in order to generate useful patterns , i.e. realistic or similar to the existing ones.
+The second has been so far the most widely used, following different approaches, such as SMOTE (Synthetic Minority Oversampling Technique) \cite{smote_02}, a method proposed by Chawla et al. for creating ``artificial'' samples for the minority class, in order to balance the amount of them with respect. However this technique is based in numerical computations, which consider different distance measures, in order to generate useful patterns , i.e. realistic or similar to the existing ones.
 
-The third option implies using a method in which a cost can be associated to the classifier accuracy at every step. This was done for instance by Alfaro-Cid et al. in \cite{cost_adjustment_07}, where they used a Genetic Programming (GP) approach in which the fitness function was modified in order to consider a penalty when the classifier makes a false negative -- an element from the minority class was classified as belonging to the majority class --. However almost all the approaches deal with numerical data, which is important to take into account when working with nominal -- not integer or real -- values.
+The third option implies using a method in which a cost can be associated to the classifier accuracy at every step. This was done for instance by Alfaro-Cid et al. in \cite{cost_adjustment_07}, where they used a Genetic Programming (GP) approach in which the fitness function was modified in order to consider a penalty when the classifier makes a false negative -- an element from the minority class was classified as belonging to the majority class --. However almost all the approaches deal with numerical data, which is important to take into account when working with nominal -- not integer or real -- values as well.
 
 \section{Data transformation}
+
+
 
 \section{Soft computing techniques applied to data mining and visualisation}
 
